@@ -1,10 +1,27 @@
 #include <SFML/Graphics.hpp>
 
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(580, 580), "Prototype");
+    sf::Vector2i mouseposition;
+
+    int lastbox = 0;
+    int currentbox;
+
+    //declare 100 rectangle
+    sf::RectangleShape recttest[100];
+    for(int i = 0; i < 100; i++)
+    {
+        //change its size to 50x50
+        recttest[i].setSize(sf::Vector2f(50.f,50.f));
+        //change its position to proper place
+        recttest[i].setPosition(55 * (i / 10),(i % 10) * 55);
+        //set its outline color
+        recttest[i].setOutlineColor(sf::Color::Black);
+        //set its outline thickness
+        recttest[i].setOutlineThickness(2);
+    }
 
     while (window.isOpen())
     {
@@ -13,10 +30,33 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if (event.type == sf::Event::MouseMoved)
+            {
+                mouseposition = sf::Mouse::getPosition(window);
+
+                recttest[lastbox].setFillColor(sf::Color::White);
+
+                currentbox = (mouseposition.y / 55) + 10 * (mouseposition.x / 55);
+
+                recttest[currentbox].setFillColor(sf::Color::Cyan);
+
+                lastbox = currentbox;
+            }
+
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                //text.setPosition(55 * (currentbox / 10), 55 * ( currentbox % 10));
+            }
         }
 
         window.clear();
-        window.draw(shape);
+        //window.draw(shape);
+        for(int i = 0; i < 100; i++)
+        {
+            window.draw(recttest[i]);
+        }
+
         window.display();
     }
 
