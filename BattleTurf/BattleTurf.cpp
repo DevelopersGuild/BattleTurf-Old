@@ -1,9 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(580, 580), "Prototype");
+    sf::RenderWindow window(sf::VideoMode(550, 550), "Prototype");
     sf::Vector2i mouseposition;
 
     int lastbox = 0;
@@ -46,7 +47,7 @@ int main()
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                //text.setPosition(55 * (currentbox / 10), 55 * ( currentbox % 10));
+                recttest[currentbox].setFillColor(sf::Color::Blue);
             }
         }
 
@@ -60,5 +61,9 @@ int main()
         window.display();
     }
 
+    std::cout << sizeof(sf::Vector2f) << std::endl;
+    std::cout << sizeof(int);
+
+    system("pause");
     return 0;
 }
