@@ -15,7 +15,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DSFML_STATIC" />
-					<Add directory="C:/Users/Tin/Documents/CodeBlocksProject/SFML-2.2/include" />
+					<Add directory="C:/Users/Sunny/Documents/CodeBlocksProject/SFML-2.2/include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-s-d" />
@@ -30,7 +30,7 @@
 					<Add library="jpeg" />
 					<Add library="sndfile" />
 					<Add library="openal32" />
-					<Add directory="C:/Users/Tin/Documents/CodeBlocksProject/SFML-2.2/lib" />
+					<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -61,7 +61,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-DSFML_STATIC" />
-			<Add directory="C:/Users/Tin/Documents/CodeBlocksProject/SFML-2.2/include" />
+			<Add directory="../../../CodeBlocksProject/SFML-2.2/include" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics-s-d" />
@@ -76,9 +76,11 @@
 			<Add library="jpeg" />
 			<Add library="sndfile" />
 			<Add library="openal32" />
-			<Add directory="C:/Users/Tin/Documents/CodeBlocksProject/SFML-2.2/lib" />
+			<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
 		</Linker>
 		<Unit filename="BattleTurf.cpp" />
+		<Unit filename="box.cpp" />
+		<Unit filename="box.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
