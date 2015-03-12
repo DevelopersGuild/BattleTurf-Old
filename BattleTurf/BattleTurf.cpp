@@ -8,16 +8,19 @@ int main()
     sf::Vector2i mouseposition;
     sf::Clock clock;
 
-    int lastbox = 0;
-    int currentbox;
     int turn = 0;
-    bool capture = false;
 
     //declare 100 rectangle
-    Box recttest[100];
-   for(int i = 0; i < 100; i++)
+    Box box[10][10];
+    Box *currentbox, *lastbox;
+    lastbox = NULL;
+
+   for(int i = 0; i < 10; i++)
     {
-        recttest[i].setPosition(55 * (i / 10),(i % 10) * 55);
+        for(int j = 0; j < 10; j++)
+        {
+            box[i][j].setPosition(55 * i, 55* j);
+        }
     }
 
     while (window.isOpen())
@@ -30,14 +33,29 @@ int main()
 
             if (event.type == sf::Event::MouseMoved)
             {
+                //get the position of the mouse
                 mouseposition = sf::Mouse::getPosition(window);
+                //get the current box
+                currentbox = &box[mouseposition.x / 55][mouseposition.y / 55];
 
-                currentbox = (mouseposition.y / 55) + 10 * (mouseposition.x / 55);
+                if(currentbox != lastbox)
+                {
+                    if(currentbox->getowner() == 5)
+                    {
+                        currentbox->setFillColor(sf::Color::Cyan);
+                    }
+
+                    if(lastbox !=NULL && lastbox->getowner() == 5)
+                    {
+                        lastbox->setFillColor(sf::Color::White);
+                    }
+                    lastbox = currentbox;
+                }
             }
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                if(recttest[currentbox].captureby(turn))
+                if(currentbox->captureby(turn))
                 {
                     if(turn < 3)
                     {
@@ -54,14 +72,18 @@ int main()
 
         window.clear();
         //window.draw(shape);
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 10; i++)
         {
-            recttest[i].show(&window);
+            for(int j = 0; j < 10;j++)
+            {
+                box[i][j].show(&window);
+            }
         }
 
         window.display();
     }
-
     system("pause");
     return 0;
 }
+
+
