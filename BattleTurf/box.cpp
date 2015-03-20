@@ -33,11 +33,12 @@ void Box::setFillColor(sf::Color color)
     rect.setFillColor(color);
 }
 
-bool Box::captureby(int num)
+bool Box::captureby(int num, int scorenum)
 {
     if(owner == 5)
     {
         owner = num;
+        score = scorenum;
 
         switch(num)
         {
@@ -53,7 +54,10 @@ bool Box::captureby(int num)
         return true;
     }
     return false;
+}
 
-
-
+void Box::setwall()
+{
+    owner = 4;
+    rect.setFillColor(sf::Color::Black);
 }

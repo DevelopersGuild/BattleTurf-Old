@@ -1,6 +1,10 @@
 # depslib dependency file v1.0
-1426193599 source:c:\users\tin\documents\github\battleturf\battleturf\battleturf.cpp
+1426798158 source:c:\users\tin\documents\github\battleturf\battleturf\battleturf.cpp
+	<cstdlib>
+	<ctime>
 	<SFML/Graphics.hpp>
+	<string>
+	<stdio.h>
 	<iostream>
 	"box.h"
 
@@ -721,9 +725,9 @@
 1425706965 source:c:\users\sunny\documents\github\battleturf\battleturf\box.cpp
 	"box.h"
 
-1426188042 c:\users\tin\documents\github\battleturf\battleturf\box.h
+1426624708 c:\users\tin\documents\github\battleturf\battleturf\box.h
 	<SFML/Graphics.hpp>
 
-1426188042 source:c:\users\tin\documents\github\battleturf\battleturf\box.cpp
+1426624577 source:c:\users\tin\documents\github\battleturf\battleturf\box.cpp
 	"box.h"
 
