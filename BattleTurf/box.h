@@ -6,16 +6,25 @@
 
 class Box
 {
-    friend class window;
+    //friend class Box;
 private:
     int owner;  //0 = player1; 1 = player2; 2 = player3; 3 = player4; 4 = wall; 5 = no owner
     int score;  //score range : 3~30
     sf::RectangleShape rect;
+
+    void capture_Indirectly_by(Box *box);
+    void fortify();
+
 public:
     Box();
-    bool captureby(int num, int scorenum);
+    Box(int size);
+    Box(int size, int thickness);
+    bool capture_directly_by(int num, int scorenum);
+    bool check(Box *box);
+
+
     void setscore(int num){score = num;}
-    void setrect(sf::Vector2f size, int position_x, int position_y,sf::Color color,int thickness);
+    void setrect(int size, int position_x, int position_y,int thickness);
 
     int getowner(){return owner;}
     int getscore(){return score;}
