@@ -30,6 +30,9 @@
 					<Add library="jpeg" />
 					<Add library="sndfile" />
 					<Add library="openal32" />
+					<Add library="sndfile" />
+					<Add library="ws2_32" />
+					<Add library="freetype" />
 					<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
 				</Linker>
 			</Target>

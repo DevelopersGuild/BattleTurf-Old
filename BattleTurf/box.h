@@ -13,7 +13,7 @@ private:
     sf::RectangleShape rect;
 public:
     Box();
-    bool captureby(int num);
+    bool captureby(int num, int scorenum);
     void setscore(int num){score = num;}
     void setrect(sf::Vector2f size, int position_x, int position_y,sf::Color color,int thickness);
 
@@ -23,6 +23,7 @@ public:
     void show(sf::RenderWindow *window);
     void setPosition(float x,float y);
     void setFillColor(sf::Color color);
+    void setwall();
 };
 
 #endif // BOX_H_INCLUDED
