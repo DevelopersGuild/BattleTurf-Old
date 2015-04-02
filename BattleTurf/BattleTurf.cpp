@@ -21,6 +21,7 @@ void Show_Cursor_CurrentBox(Box *currentbox, Box *lastbox);
 void Set_Wall(Box box[][NUM_BOX_HEIGHT], int numofwall);
 void Set_Score_Pool(int player_score_order[][NUM_SCORE_EACH_PLAYER], int active_player);
 void Check_adjacent(sf::Vector2i mouseposition,Box *currentbox, Box box[][NUM_BOX_HEIGHT],sf::Text score[][NUM_BOX_HEIGHT]);
+void Reset_Player_Scores(int player_point[NUM_PLAYER]);
 
 int main()
 {
@@ -45,6 +46,8 @@ turn_count:     how many turn has passed.
 */
     int active_player = 0;
     int turn_count = 0;
+    int player_point[NUM_PLAYER];
+    Reset_Player_Scores(player_point);
 /*
 Declare the boxes and generate the walls.
 */
@@ -56,8 +59,6 @@ Declare the boxes and generate the walls.
         for(int j = 0; j < NUM_BOX_HEIGHT; j++)
         {
             box[i][j].setrect(BOX_SIZE, BOX_SIZE * i, BOX_SIZE * j,2);
-            //box[i][j].setSize(BOX_SIZE);                        //every box has the same size
-            //box[i][j].setPosition(BOX_SIZE * i, BOX_SIZE * j);  //set the position of the boxes
         }
     }
 
@@ -82,17 +83,17 @@ Declare the boxes and generate the walls.
 */
     sf::Font font;                                  //the font of the score
     font.loadFromFile("arial.ttf");                 //...the font is arial.
-    sf::Text score[NUM_BOX_WIDTH][NUM_BOX_HEIGHT];  //score[][]is the score for graphing only, it doesn't change the game.
+    sf::Text Graphing_score[NUM_BOX_WIDTH][NUM_BOX_HEIGHT];  //score[][]is the score for graphing only, it doesn't change the game.
     for(int i = 0; i < NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
     {
         for(int j = 0; j < NUM_BOX_HEIGHT; j++)
         {
-            score[i][j].setFont(font);
-            score[i][j].setColor(sf::Color::Black);
-            score[i][j].setCharacterSize(30);
-            score[i][j].setStyle(sf::Text::Regular);
-            score[i][j].setString("0");
-            score[i][j].setPosition(BOX_SIZE * i, BOX_SIZE * j);
+            Graphing_score[i][j].setFont(font);
+            Graphing_score[i][j].setColor(sf::Color::Black);
+            Graphing_score[i][j].setCharacterSize(30);
+            Graphing_score[i][j].setStyle(sf::Text::Regular);
+            Graphing_score[i][j].setString("0");
+            Graphing_score[i][j].setPosition(BOX_SIZE * i, BOX_SIZE * j);
         }
     }
 
@@ -103,12 +104,23 @@ Declare the boxes and generate the walls.
     GraphingRect.setOutlineThickness(5);                //Outline, the "border" of the rectangle
     GraphingRect.setOutlineColor(sf::Color::Black);     //the color of the outline is black
 
-    sf::Text Graphing_score;                            //the text of the current scorebox
-    Graphing_score.setFont(font);
-    Graphing_score.setColor(sf::Color::Black);
-    Graphing_score.setCharacterSize(60);
-    Graphing_score.setStyle(sf::Text::Regular);
-    Graphing_score.setPosition(NUM_BOX_WIDTH * BOX_SIZE + (INTERFACE_SIZE / 2), INTERFACE_SIZE / 3);
+    sf::Text Graphing_scorebox;                            //the text of the current scorebox
+    Graphing_scorebox.setFont(font);
+    Graphing_scorebox.setColor(sf::Color::Black);
+    Graphing_scorebox.setCharacterSize(60);
+    Graphing_scorebox.setStyle(sf::Text::Regular);
+    Graphing_scorebox.setPosition(NUM_BOX_WIDTH * BOX_SIZE + (INTERFACE_SIZE / 2), INTERFACE_SIZE / 3);
+
+    sf::Text Graphing_player_score[NUM_PLAYER];
+    for(int i = 0; i < NUM_PLAYER; i++)
+    {
+        Graphing_player_score[i].setFont(font);
+        Graphing_player_score[i].setColor(sf::Color::White);
+        Graphing_player_score[i].setCharacterSize(30);
+        Graphing_player_score[i].setStyle(sf::Text::Regular);
+        Graphing_player_score[i].setString("0");
+        Graphing_player_score[i].setPosition(NUM_BOX_WIDTH * BOX_SIZE, INTERFACE_SIZE + i * 20);
+    }
 
 /*******************************************************************
     The main game start here.
@@ -131,14 +143,14 @@ Declare the boxes and generate the walls.
                 box[i][j].show(&window);
 
                 if(box[i][j].getscore() != 0)
-                window.draw(score[i][j]);
+                window.draw(Graphing_score[i][j]);
             }
         }
         window.draw(GraphingRect);
 
         char buf[256];
         sprintf(buf, "%d",  player_score_order[active_player][turn_count]);
-        Graphing_score.setString(buf);
+        Graphing_scorebox.setString(buf);
         switch(active_player)
         {
             case 0: GraphingRect.setFillColor(sf::Color::Blue);
@@ -150,7 +162,15 @@ Declare the boxes and generate the walls.
             case 3: GraphingRect.setFillColor(sf::Color::Yellow);
                     break;
         }
-        window.draw(Graphing_score);
+        window.draw(Graphing_scorebox);
+
+        for(int i = 0; i < NUM_PLAYER; i++)
+        {
+            char buf[256];
+            sprintf(buf, "%d",  player_point[i]);
+            Graphing_player_score[i].setString(buf);
+            window.draw(Graphing_player_score[i]);
+        }
 
         window.display();
 
@@ -187,10 +207,10 @@ Declare the boxes and generate the walls.
                     //update the graphing score
                     char buf[256];
                     sprintf(buf, "%d",  player_score_order[active_player][turn_count]);
-                    score[mouseposition.x / BOX_SIZE][mouseposition.y / BOX_SIZE].setString(buf);
+                    Graphing_score[mouseposition.x / BOX_SIZE][mouseposition.y / BOX_SIZE].setString(buf);
 
                     //attack or strengthen the nearby boxes
-                    Check_adjacent(mouseposition, currentbox, box, score);
+                    Check_adjacent(mouseposition, currentbox, box, Graphing_score);
 
                     //next player move
                     active_player++;
@@ -200,10 +220,35 @@ Declare the boxes and generate the walls.
                         active_player = 0;
                         turn_count++;               //next turn.
                     }
+                    //count the score, the algorithm is not good and will be changed later
+                    Reset_Player_Scores(player_point);
+
+
+                    for(int i = 0; i < NUM_BOX_WIDTH; i++)      //go over every box and count the score
+                    {
+                        for(int j = 0; j < NUM_BOX_HEIGHT; j++)
+                        {
+                            if(box[i][j].getowner() < 4)        //if somebody occupied the box
+                            {
+                                int player = box[i][j].getowner();
+                                player_point[player] += box[i][j].getscore();
+                            }
+
+                        }
+                    }
                 }
             }
         }
     }
+
+    //find the winner
+    int winner = 0;
+    for(int i = 1; i < NUM_PLAYER; i++)
+    {
+        if(player_point[winner] < player_point[i])
+            winner = i;
+    }
+    std::cout << "The winner is Player" << winner + 1 << " ! ";
     system("pause");
     return 0;
 }
@@ -355,4 +400,13 @@ void Check_adjacent(sf::Vector2i mouseposition,Box *currentbox, Box box[][NUM_BO
         score[(mouseposition.x / BOX_SIZE) + 1][(mouseposition.y / BOX_SIZE) + 1].setString(buf);
     }
 }
+
+void Reset_Player_Scores(int player_point[NUM_PLAYER])
+{
+    for(int i = 0; i < NUM_PLAYER; i++) //reset the scores first
+    {
+        player_point[i] = 0;
+    }
+}
+
 
