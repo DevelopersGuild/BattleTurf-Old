@@ -11,10 +11,11 @@ Settings of the game. Well, I will change them into dynamic allocated after we m
 */
 const int NUM_WALL = 6;         //number of wall
 const int NUM_PLAYER = 4;       //number of player, must be less or equals to than 4
-const int NUM_BOX_WIDTH = 6;    //the width of the map
-const int NUM_BOX_HEIGHT = 6;   //the height of the map
+const int NUM_BOX_WIDTH = 12;    //the width of the map
+const int NUM_BOX_HEIGHT = 12;   //the height of the map
 const int NUM_SCORE_EACH_PLAYER = ((NUM_BOX_WIDTH * NUM_BOX_HEIGHT) - NUM_WALL) / NUM_PLAYER;       //the number of score box that each player can put in the game
 const int BOX_SIZE = 55;        //the size of the box
+const int INTERFACE_SIZE = NUM_BOX_WIDTH * BOX_SIZE / 2; //the width of the interface
 
 void Show_Cursor_CurrentBox(Box *currentbox, Box *lastbox);
 void Set_Wall(Box box[][NUM_BOX_HEIGHT], int numofwall);
@@ -26,26 +27,12 @@ int main()
 /*******************************************************************
     Declare the important values of the game.
 ********************************************************************/
+/*
+    Basic
+*/
     srand(time(NULL));                              //randomize for rand() function.
     sf::Vector2i mouseposition;                     //a vector variable for the cursor's position
-    sf::Clock clock;                                //to be used
-
-    sf::Font font;                                  //the font of the score
-    font.loadFromFile("arial.ttf");                 //...the font is arial.
-    sf::Text score[NUM_BOX_WIDTH][NUM_BOX_HEIGHT];  //score[][]is the score for graphing only, it doesn't change the game.
-    for(int i = 0; i < NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
-    {
-        for(int j = 0; j < NUM_BOX_HEIGHT; j++)
-        {
-            score[i][j].setFont(font);
-            score[i][j].setColor(sf::Color::Black);
-            score[i][j].setCharacterSize(30);
-            score[i][j].setStyle(sf::Text::Regular);
-            score[i][j].setString("0");
-            score[i][j].setPosition(BOX_SIZE * i, BOX_SIZE * j);
-        }
-    }
-
+    sf::Clock clock;                                //to be used?
 /*
 Declare the variable of turn and turn_count.
 active_player:  determine who can moves.
@@ -90,18 +77,51 @@ Declare the boxes and generate the walls.
     int player_score_order[NUM_PLAYER][NUM_SCORE_EACH_PLAYER];
     Set_Score_Pool(player_score_order, NUM_SCORE_EACH_PLAYER);
 
+/*
+    Graphics
+*/
+    sf::Font font;                                  //the font of the score
+    font.loadFromFile("arial.ttf");                 //...the font is arial.
+    sf::Text score[NUM_BOX_WIDTH][NUM_BOX_HEIGHT];  //score[][]is the score for graphing only, it doesn't change the game.
+    for(int i = 0; i < NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
+    {
+        for(int j = 0; j < NUM_BOX_HEIGHT; j++)
+        {
+            score[i][j].setFont(font);
+            score[i][j].setColor(sf::Color::Black);
+            score[i][j].setCharacterSize(30);
+            score[i][j].setStyle(sf::Text::Regular);
+            score[i][j].setString("0");
+            score[i][j].setPosition(BOX_SIZE * i, BOX_SIZE * j);
+        }
+    }
+
+    sf::RectangleShape GraphingRect;                    //the background of the current scorebox
+    GraphingRect.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
+    GraphingRect.setSize(sf::Vector2f(INTERFACE_SIZE, NUM_BOX_HEIGHT * BOX_SIZE / 2));      //the size
+    GraphingRect.setPosition(sf::Vector2f(NUM_BOX_WIDTH * BOX_SIZE + 5, 0));                //the position
+    GraphingRect.setOutlineThickness(5);                //Outline, the "border" of the rectangle
+    GraphingRect.setOutlineColor(sf::Color::Black);     //the color of the outline is black
+
+    sf::Text Graphing_score;                            //the text of the current scorebox
+    Graphing_score.setFont(font);
+    Graphing_score.setColor(sf::Color::Black);
+    Graphing_score.setCharacterSize(60);
+    Graphing_score.setStyle(sf::Text::Regular);
+    Graphing_score.setPosition(NUM_BOX_WIDTH * BOX_SIZE + (INTERFACE_SIZE / 2), INTERFACE_SIZE / 3);
+
 /*******************************************************************
     The main game start here.
 ********************************************************************/
     //create the window
-    sf::RenderWindow window(sf::VideoMode(NUM_BOX_WIDTH * BOX_SIZE, NUM_BOX_HEIGHT * BOX_SIZE), "Prototype", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(NUM_BOX_WIDTH * BOX_SIZE + INTERFACE_SIZE, NUM_BOX_HEIGHT * BOX_SIZE), "Prototype", sf::Style::Close);
 
     while (window.isOpen())
     {
         sf::Event event;
 
         //---------------------------------------------
-        //Graphing here
+        //Graphics here
         //---------------------------------------------
         window.clear();
         for(int i = 0; i < NUM_BOX_WIDTH; i++)
@@ -114,6 +134,24 @@ Declare the boxes and generate the walls.
                 window.draw(score[i][j]);
             }
         }
+        window.draw(GraphingRect);
+
+        char buf[256];
+        sprintf(buf, "%d",  player_score_order[active_player][turn_count]);
+        Graphing_score.setString(buf);
+        switch(active_player)
+        {
+            case 0: GraphingRect.setFillColor(sf::Color::Blue);
+                    break;
+            case 1: GraphingRect.setFillColor(sf::Color::Red);
+                    break;
+            case 2: GraphingRect.setFillColor(sf::Color::Green);
+                    break;
+            case 3: GraphingRect.setFillColor(sf::Color::Yellow);
+                    break;
+        }
+        window.draw(Graphing_score);
+
         window.display();
 
         //----------------------------------------------
