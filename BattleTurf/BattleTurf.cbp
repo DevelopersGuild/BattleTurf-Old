@@ -30,7 +30,6 @@
 					<Add library="jpeg" />
 					<Add library="sndfile" />
 					<Add library="openal32" />
-					<Add library="sndfile" />
 					<Add library="ws2_32" />
 					<Add library="freetype" />
 					<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
@@ -82,6 +81,10 @@
 			<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
 		</Linker>
 		<Unit filename="BattleTurf.cpp" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.h" />
+		<Unit filename="Thegame.cpp" />
+		<Unit filename="Thegame.h" />
 		<Unit filename="box.cpp" />
 		<Unit filename="box.h" />
 		<Extensions>

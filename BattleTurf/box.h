@@ -3,7 +3,6 @@
 
 #include<SFML/Graphics.hpp>
 
-
 class Box
 {
     //friend class Box;
