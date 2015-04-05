@@ -13,6 +13,7 @@ Game::Game()
     for(int i = 0; i < NUM_PLAYER; i++)
     {
         player[i].Initialize(NUM_SCORE_EACH_PLAYER);
+        player_order[i] = &player[i];
     }
     lastbox = NULL;
     Mech_Set_Score_Pool();
@@ -118,9 +119,9 @@ void Game::Graphic_updateAll()
     //draw the background behind the text that shows the current player's color and his scorebox
     window.draw(GraphingRect1);
     //change the background color of the background
-    GraphingRect1.setFillColor(player[current_active_player].getcolor());
+    GraphingRect1.setFillColor(player_order[current_active_player]->getcolor());
     //show the current scorebox
-    Graphic_int_ToString(player[current_active_player].getscore_order(turn_passed), Graphing_scorebox);
+    Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed), Graphing_scorebox);
     //draw the scorebox
     window.draw(Graphing_scorebox);
     //the total score of each player
@@ -180,19 +181,20 @@ And Finally calculate the total score.
 *********************************************/
 void Game::Event_MouseLeftClicked()
 {
-    if(currentbox->capture_directly_by(player[current_active_player], player[current_active_player].getscore_order(turn_passed)))
+    if(currentbox->capture_directly_by(*(player_order[current_active_player]), player_order[current_active_player]->getscore_order(turn_passed)))
     {
         //update the graphing score
-        Graphic_int_ToString(player[current_active_player].getscore_order(turn_passed),
+        Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed),
                              Graphing_score[mouseposition.x / BOX_SIZE][mouseposition.y / BOX_SIZE]);
         //attack or strengthen the nearby boxes
         Mech_Check_adjacent(mouseposition, currentbox, box, Graphing_score);
 
-        Mech_NextPlayer();
         //count the score, the algorithm is not good and will be changed later
         Mech_Reset_Player_Scores();
 
         Mech_Calculate_Score();
+
+        Mech_NextPlayer();
     }
 }
 /*********************************************
@@ -357,7 +359,21 @@ change the player order, from lowest score to highest score
 *********************************************/
 void Game::Mech_Rearrange_order()
 {
-
+    for(int i = 0; i < NUM_PLAYER; i++)
+    {
+        Player *minimum = player_order[i];
+        int target = i;
+        for(int j = i + 1; j < NUM_PLAYER; j++)
+        {
+            if(player_order[j]->getscore() < minimum->getscore())
+            {
+                minimum = player_order[j];
+                target = j;
+            }
+        }
+        player_order[target] = player_order[i];
+        player_order[i] = minimum;
+    }
 }
 /*********************************************
 Mech_NextPlayer
@@ -371,7 +387,7 @@ void Game::Mech_NextPlayer()
     //if it is the last player of that turn, reset to player1.
     if(current_active_player == NUM_PLAYER)
     {
-        //Mech_Rearrange_order();
+        Mech_Rearrange_order();
         current_active_player = 0;
         turn_passed++;               //next turn.
     }

@@ -33,6 +33,7 @@ private:
     Game operating
     ****************************/
     Player player[NUM_PLAYER];  //declare players
+    Player *player_order[NUM_PLAYER];
     int current_active_player;  //determine who moves.
     int turn_passed;            //how many turn has passed
 
