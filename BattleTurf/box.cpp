@@ -1,10 +1,20 @@
+/***********************************************
+Box Class
+The box has 3 states:
+0 = non occupied,
+1 = occupied
+2 = wall
+This is held in variable "boxstate"
+
+The box remember its owner by a pointer "owner" which is pointing to a player class.
+***********************************************/
 #include "box.h"
 /*********************************************
 Constructor
 **********************************************/
 Box::Box()
 {
-    owner = 5;
+    boxstate = 0;
     score = 0;
     rect.setSize(sf::Vector2f(50,50));
     rect.setPosition(0,0);
@@ -55,7 +65,7 @@ Capture if it is another player and the incoming box has a greater score.
 **********************************************/
 bool Box::check(Box *box)
 {
-    if(owner <= 3)
+    if(boxstate == 1)
     {
         if(box->getowner() == owner)
         {
@@ -74,24 +84,14 @@ capture_directly_by function
 Capture the box and change the color.
 Only available if the box is blank.
 **********************************************/
-bool Box::capture_directly_by(int num, int scorenum)
+bool Box::capture_directly_by(Player &player, int scorenum)
 {
-    if(owner == 5)
+    if(boxstate == 0)
     {
-        owner = num;
+        boxstate = 1;
         score = scorenum;
-
-        switch(num)
-        {
-        case 0: rect.setFillColor(sf::Color::Blue);
-                break;
-        case 1: rect.setFillColor(sf::Color::Red);
-                break;
-        case 2: rect.setFillColor(sf::Color::Green);
-                break;
-        case 3: rect.setFillColor(sf::Color::Yellow);
-                break;
-        }
+        owner = &player;
+        rect.setFillColor(player.getcolor());
         return true;
     }
     return false;
@@ -105,17 +105,7 @@ void Box::capture_Indirectly_by(Box *box)
 {
     owner = box->getowner();
 
-    switch(owner)
-    {
-    case 0: rect.setFillColor(sf::Color::Blue);
-            break;
-    case 1: rect.setFillColor(sf::Color::Red);
-            break;
-    case 2: rect.setFillColor(sf::Color::Green);
-            break;
-    case 3: rect.setFillColor(sf::Color::Yellow);
-            break;
-    }
+    rect.setFillColor(owner->getcolor());
 }
 /*********************************************
 fortify function
@@ -131,6 +121,6 @@ Set the box as wall.
 **********************************************/
 void Box::setwall()
 {
-    owner = 4;
+    boxstate = 2;
     rect.setFillColor(sf::Color::Black);
 }

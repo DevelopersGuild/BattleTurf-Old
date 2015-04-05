@@ -2,12 +2,14 @@
 #define BOX_H_INCLUDED
 
 #include<SFML/Graphics.hpp>
+#include "Player.h"
 
 class Box
 {
     //friend class Box;
 private:
-    int owner;  //0 = player1; 1 = player2; 2 = player3; 3 = player4; 4 = wall; 5 = no owner
+    int boxstate;   //0 = non occupied, 1 = occupied, 2 = wall
+    Player *owner;  //a pointer pointing to the owner
     int score;  //score range : 3~30
     sf::RectangleShape rect;
 
@@ -18,15 +20,15 @@ public:
     Box();
     Box(int size);
     Box(int size, int thickness);
-    bool capture_directly_by(int num, int scorenum);
+    bool capture_directly_by(Player &player, int scorenum);
     bool check(Box *box);
-
 
     void setscore(int num){score = num;}
     void setrect(int size, int position_x, int position_y,int thickness);
 
-    int getowner(){return owner;}
+    Player* getowner(){return owner;}
     int getscore(){return score;}
+    int getstate(){return boxstate;}
 
     void show(sf::RenderWindow *window);
     void setPosition(float x,float y);

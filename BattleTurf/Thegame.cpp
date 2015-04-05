@@ -180,7 +180,7 @@ And Finally calculate the total score.
 *********************************************/
 void Game::Event_MouseLeftClicked()
 {
-    if(currentbox->capture_directly_by(current_active_player, player[current_active_player].getscore_order(turn_passed)))
+    if(currentbox->capture_directly_by(player[current_active_player], player[current_active_player].getscore_order(turn_passed)))
     {
         //update the graphing score
         Graphic_int_ToString(player[current_active_player].getscore_order(turn_passed),
@@ -213,12 +213,12 @@ Lighten the cursor's location to cyan color and set the last box to normal
 void Game::Graphic_Show_Cursor_CurrentBox(Box *currentbox, Box *lastbox)
 {
     //the current box turns cyan
-    if(currentbox->getowner() == 5)
+    if(currentbox->getstate() == 0)
     {
         currentbox->setFillColor(sf::Color::Cyan);
     }
     //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
-    if(lastbox !=NULL && lastbox->getowner() == 5)
+    if(lastbox !=NULL && lastbox->getstate() == 0)
     {
         lastbox->setFillColor(sf::Color::White);
     }
@@ -308,10 +308,10 @@ void Game::Mech_Calculate_Score()
     {
         for(int j = 0; j < NUM_BOX_HEIGHT; j++)
         {
-            int owner = box[i][j].getowner();
-            if( owner < 4)        //if somebody occupied the box
+
+            if( box[i][j].getstate() == 1)        //if somebody occupied the box
             {
-                player[owner].addscore(box[i][j].getscore());
+                (box[i][j].getowner())->addscore(box[i][j].getscore());
             }
         }
     }
@@ -344,12 +344,20 @@ void Game::Mech_Set_Wall()
     {
         int target1 = rand() % NUM_BOX_WIDTH;
         int target2 = rand() % NUM_BOX_HEIGHT;
-        if(box[target1][target2].getowner() != 4)
+        if(box[target1][target2].getstate() != 2)
         {
             box[target1][target2].setwall();
             count++;
         }
     }
+}
+/*********************************************
+Mech_Rearrange_order
+change the player order, from lowest score to highest score
+*********************************************/
+void Game::Mech_Rearrange_order()
+{
+
 }
 /*********************************************
 Mech_NextPlayer
@@ -363,6 +371,7 @@ void Game::Mech_NextPlayer()
     //if it is the last player of that turn, reset to player1.
     if(current_active_player == NUM_PLAYER)
     {
+        //Mech_Rearrange_order();
         current_active_player = 0;
         turn_passed++;               //next turn.
     }

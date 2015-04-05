@@ -64,6 +64,7 @@ private:
     void Mech_Check_adjacent(sf::Vector2i mouseposition,Box *currentbox, Box box[][NUM_BOX_HEIGHT],sf::Text score[][NUM_BOX_HEIGHT]);
     void Mech_NextPlayer();
     void Mech_Reset_Player_Scores();
+    void Mech_Rearrange_order();
     void Mech_Set_Score_Pool();
     void Mech_Set_Wall();
 
