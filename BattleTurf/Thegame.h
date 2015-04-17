@@ -58,7 +58,7 @@ private:
     void Event_MouseMoved();
     void Event_MouseLeftClicked();
     void Graphic_updateAll();               //refresh graphics
-    void Graphic_int_ToString(int value, sf::Text &targettext);     //convery integer to sf::Text
+    void Graphic_int_ToString(int value, sf::Text &targettext);     //convert integer to sf::Text
     void Graphic_Show_Cursor_CurrentBox(Box *currentbox, Box *lastbox);
     void HandleEvent(sf::Event &event);
     void Mech_Calculate_Score();

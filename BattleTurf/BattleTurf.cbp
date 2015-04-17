@@ -15,7 +15,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DSFML_STATIC" />
-					<Add directory="C:/Users/Sunny/Documents/CodeBlocksProject/SFML-2.2/include" />
+					<Add directory="SFML-2.2/include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-s-d" />
@@ -32,7 +32,7 @@
 					<Add library="openal32" />
 					<Add library="ws2_32" />
 					<Add library="freetype" />
-					<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
+					<Add directory="SFML-2.2/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">

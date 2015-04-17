@@ -86,6 +86,7 @@ void Game::start()
     window.create(sf::VideoMode(NUM_BOX_WIDTH * BOX_SIZE + INTERFACE_SIZE, NUM_BOX_HEIGHT * BOX_SIZE), "BattleTurf",sf::Style::Close);
     while(window.isOpen())
     {
+
         sf::Event event;
 
         Graphic_updateAll();        //update graphics when event occurred
@@ -422,4 +423,3 @@ bool Game::isMouseinGame()
     }
     return false;
 }
-
