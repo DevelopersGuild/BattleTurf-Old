@@ -8,6 +8,7 @@ Game::Game()
     Game operating
     *****************************/
     srand(time(NULL));
+    game_state = menu;
     current_active_player = 0;
     turn_passed = 0;
     for(int i = 0; i < NUM_PLAYER; i++)
@@ -76,6 +77,24 @@ Game::Game()
         Graphing_player_score[i].setString("0");
         Graphing_player_score[i].setPosition(NUM_BOX_WIDTH * BOX_SIZE, INTERFACE_SIZE + i * 20);
     }
+
+    //experiment
+    menurect.setSize(sf::Vector2f(100,100));
+    menurect.setPosition(0,0);
+    menurect.setFillColor(sf::Color::Black);
+}
+void Game::Menu(sf::Event &event)
+{
+    bool clicked = false;
+
+    while(window.waitEvent(event) && !clicked)
+    {
+        if(event.type == sf::Event::KeyPressed)
+        {
+            clicked = true;
+        }
+    }
+    game_state = ingame;
 }
 /*********************************************
 start()
@@ -86,14 +105,18 @@ void Game::start()
     window.create(sf::VideoMode(NUM_BOX_WIDTH * BOX_SIZE + INTERFACE_SIZE, NUM_BOX_HEIGHT * BOX_SIZE), "BattleTurf",sf::Style::Close);
     while(window.isOpen())
     {
-
-        sf::Event event;
-
         Graphic_updateAll();        //update graphics when event occurred
-
         if(window.waitEvent(event))
         {
-            HandleEvent(event);
+            if(game_state == menu)
+            {
+                Menu(event);
+            }
+            else
+            {
+                HandleEvent(event);
+            }
+
         }
     }
     //Show the winner, will be changed when we do the graphics
@@ -106,6 +129,11 @@ Refresh all the graphics
 void Game::Graphic_updateAll()
 {
     window.clear();
+    if(game_state == menu)
+    {
+        window.draw(menurect);
+        return;
+    }
     //redraw the map, will be changed when we do the graphics.
     for(int i = 0; i < NUM_BOX_WIDTH; i++)
     {
@@ -140,6 +168,7 @@ Call the function according to the event occurred
 *********************************************/
 void Game::HandleEvent(sf::Event &event)
 {
+
     if (event.type == sf::Event::Closed)
     window.close();
 
@@ -152,6 +181,7 @@ void Game::HandleEvent(sf::Event &event)
     {
         Event_MouseLeftClicked();
     }
+
 }
 /*********************************************
 Event_MouseMoved

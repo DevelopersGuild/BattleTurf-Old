@@ -36,6 +36,9 @@ private:
     Player *player_order[NUM_PLAYER];
     int current_active_player;  //determine who moves.
     int turn_passed;            //how many turn has passed
+    enum state {menu, ingame};
+    state game_state;
+    sf::Event event;
 
     Box box[NUM_BOX_WIDTH][NUM_BOX_HEIGHT]; //the map
     Box *currentbox;            //a pointer for marking the box that the cursor located.
@@ -49,6 +52,7 @@ private:
     sf::RectangleShape GraphingRect1;                    //the background of the current scorebox
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text Graphing_player_score[NUM_PLAYER];
+    sf::RectangleShape menurect;
 
     sf::RenderWindow window;
 
@@ -68,6 +72,7 @@ private:
     void Mech_Rearrange_order();
     void Mech_Set_Score_Pool();
     void Mech_Set_Wall();
+    void Menu(sf::Event &event);
 
     int Mech_Find_winner();
 
