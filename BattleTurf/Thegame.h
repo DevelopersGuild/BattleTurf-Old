@@ -36,7 +36,7 @@ private:
     Player *player_order[NUM_PLAYER];
     int current_active_player;  //determine who moves.
     int turn_passed;            //how many turn has passed
-    enum state {menu, ingame};
+    enum state {menu, ingame};  //the state of the game
     state game_state;
     sf::Event event;
 

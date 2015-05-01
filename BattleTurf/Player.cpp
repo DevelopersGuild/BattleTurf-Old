@@ -6,19 +6,6 @@ Player::Player()
 {
 
 }
-/****************************************
-Initialize
-dynamic allocate the scorebox_order.
-
-!MUST BE CALLED WHEN PLAYER CLASS IS CREATED!
-
-Basically I don't think this is a good way to initialize the scorebox_order.
-Tell me if you guys got a better idea.
-*****************************************/
-void Player::Initialize(int num_score_each_player)
-{
-    scorebox_order = new int[num_score_each_player];
-}
 /*********************************************
 getscore_order
 return player's score order.
@@ -75,6 +62,6 @@ void Player::setscorebox_order(int value[], int num_score_each_player)
 {
     for(int i = 0; i < num_score_each_player; i++)
     {
-        scorebox_order[i] = value[i];
+        scorebox_order.push_back(value[i]);
     }
 }

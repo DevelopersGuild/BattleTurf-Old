@@ -13,7 +13,6 @@ Game::Game()
     turn_passed = 0;
     for(int i = 0; i < NUM_PLAYER; i++)
     {
-        player[i].Initialize(NUM_SCORE_EACH_PLAYER);
         player_order[i] = &player[i];
     }
     lastbox = NULL;
