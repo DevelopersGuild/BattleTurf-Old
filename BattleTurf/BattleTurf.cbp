@@ -81,9 +81,10 @@
 			<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
 		</Linker>
 		<Unit filename="BattleTurf.cpp" />
-		<Unit filename="Game_Graphics.h" />
-		<Unit filename="Graphic.h" />
-		<Unit filename="Menu_Graphic.h" />
+		<Unit filename="Ingame.cpp" />
+		<Unit filename="Ingame.h" />
+		<Unit filename="Menu.cpp" />
+		<Unit filename="Menu.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="Thegame.cpp" />

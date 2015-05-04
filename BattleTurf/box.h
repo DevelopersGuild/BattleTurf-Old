@@ -37,6 +37,8 @@ public:
     void setPosition(float x,float y);
     void setFillColor(sf::Color color);
     void setwall();
+
+    sf::Text Graphing_score;    //the score for graphing only, it doesn't change the game.
 };
 
 #endif // BOX_H_INCLUDED
