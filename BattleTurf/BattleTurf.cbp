@@ -83,6 +83,8 @@
 		<Unit filename="BattleTurf.cpp" />
 		<Unit filename="Ingame.cpp" />
 		<Unit filename="Ingame.h" />
+		<Unit filename="Intro.cpp" />
+		<Unit filename="Intro.h" />
 		<Unit filename="Menu.cpp" />
 		<Unit filename="Menu.h" />
 		<Unit filename="Player.cpp" />

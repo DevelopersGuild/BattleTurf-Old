@@ -28,9 +28,9 @@ private:
     Game data
     ******************/
     sf::RenderWindow *ptrwindow;
-    sf::Event *ptrevent;
-    sf::Vector2i *ptrMousePosition;
-    Game_data *ptrgameSetting;
+    const sf::Event *ptrevent;
+    const sf::Vector2i *ptrMousePosition;
+    const Game_data *ptrgameSetting;
 
     /******************
     Game operation
@@ -68,6 +68,7 @@ private:
     void Mech_Reset_Player_Scores();
     void Mech_Calculate_Score();
     int Mech_Find_winner();
+    void Mech_Rearrange_order();
 
     void Graphic_int_ToString(int value, sf::Text &targettext);
 

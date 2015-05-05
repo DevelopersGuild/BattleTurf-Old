@@ -4,7 +4,7 @@ Ingame::Ingame()
 {
     current_active_player = 0;
     turn_passed = 0;
-
+    lastbox = NULL;
 }
 
 Ingame::~Ingame()
@@ -120,7 +120,6 @@ void Ingame::update()
         Graphic_int_ToString(player[i].getscore(),Graphing_player_score[i]);
         ptrwindow->draw(Graphing_player_score[i]);
     }
-
     ptrwindow->display();
 }
 
@@ -137,7 +136,7 @@ void Ingame::HandleEvent()
         Event_MouseMoved();
     }
 
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if(ptrevent->type == sf::Event::MouseButtonPressed)
     {
         Event_MouseLeftClicked();
     }
@@ -160,7 +159,7 @@ void Ingame::Show_Cursor_Box()
         {
             currentbox->setFillColor(sf::Color::Cyan);
         }
-        //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
+                //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
         if(lastbox !=NULL && lastbox->getstate() == 0)
         {
             lastbox->setFillColor(sf::Color::White);
@@ -196,6 +195,7 @@ void Ingame::Mech_NextPlayer()
     //if it is the last player of that turn, reset to player1.
     if(current_active_player == ptrgameSetting->NUM_PLAYER)
     {
+        Mech_Rearrange_order();
         current_active_player = 0;
         turn_passed++;               //next turn.
     }
@@ -318,4 +318,26 @@ int Ingame::Mech_Find_winner()
             winner = i;
     }
     return winner;
+}
+/*********************************************
+Mech_Rearrange_order
+change the player order, from lowest score to highest score
+*********************************************/
+void Ingame::Mech_Rearrange_order()
+{
+    for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
+    {
+        Player *minimum = player_order[i];
+        int target = i;
+        for(int j = i + 1; j < ptrgameSetting->NUM_PLAYER; j++)
+        {
+            if(player_order[j]->getscore() < minimum->getscore())
+            {
+                minimum = player_order[j];
+                target = j;
+            }
+        }
+        player_order[target] = player_order[i];
+        player_order[i] = minimum;
+    }
 }

@@ -6,7 +6,7 @@ Game_Menu::Game_Menu()
 void Game_Menu::Initialize(sf::RenderWindow *window, sf::Event *event)
 {
     menubutton.setFillColor(sf::Color::Blue);
-    menubutton.setPosition(50,50);
+    menubutton.setPosition(375,275);
     menubutton.setSize(sf::Vector2f(150,50));
 
     ptrwindow = window;

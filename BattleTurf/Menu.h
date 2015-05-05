@@ -8,8 +8,9 @@ class Game_Menu
 private:
     //the button(?) of menu
     sf::RectangleShape menubutton;
+
     sf::RenderWindow *ptrwindow;
-    sf::Event *ptrevent;
+    const sf::Event *ptrevent;
 public:
     //constructor
     Game_Menu();

@@ -4,7 +4,7 @@ Constructor
 *****************************************************/
 Game::Game()
 {
-    game_state = Menu;
+    game_state = Start;
 
     //temporary set the game data, will be changed later
     game.NUM_WALL = 8;         //number of wall
@@ -15,6 +15,7 @@ Game::Game()
     game.BOX_SIZE = 55;        //the size of the box
     game.INTERFACE_SIZE = game.NUM_BOX_WIDTH * game.BOX_SIZE / 2; //the width of the interface
 
+    intro.Init(&window, &game);
     ingame.Init(&window,&event,&mouseposition, &game);
     menu.Initialize(&window,&event);
 
@@ -27,14 +28,18 @@ void Game::start()
 {
     window.create(sf::VideoMode(game.NUM_BOX_WIDTH * game.BOX_SIZE + game.INTERFACE_SIZE, game.NUM_BOX_HEIGHT * game.BOX_SIZE),
                    "BattleTurf",sf::Style::Close);
-    //start with menu
-    menu.update();
+    //start with intro
+    //menu.update();
     while(window.isOpen())
     {
         //update the position of mouse
         getMousePosition();
-
-        if(game_state == Menu)
+        if(game_state == Start)
+        {
+            intro.Play();
+            game_state = Menu;
+        }
+        else if(game_state == Menu)
         {
             menu.update();
             if(window.waitEvent(event))
@@ -42,7 +47,7 @@ void Game::start()
                 if (event.type == sf::Event::Closed)
                     window.close();
 
-                if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                if(event.type == sf::Event::MouseButtonPressed)
                 {
                     game_state = Maingame;
                 }
@@ -58,8 +63,6 @@ void Game::start()
             }
         }
     }
-    //Show the winner, will be changed when we do the graphics
-    //std::cout << "The winner is Player" << Mech_Find_winner() + 1 << " ! ";
 }
 
 /*********************************************
