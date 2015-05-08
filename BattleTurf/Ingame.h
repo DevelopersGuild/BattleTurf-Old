@@ -48,7 +48,7 @@ private:
     /******************
     Graphics
     ******************/
-    sf::Font font;                                  //the font of the score
+    sf::Font *ptrfont;                                  //the font of the score
     //sf::Text Graphing_score[11][11];  //score[][]is the score for graphing only, it doesn't change the game.
     sf::RectangleShape GraphingRect1;                    //the background of the current scorebox
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
@@ -76,7 +76,7 @@ public:
     Ingame();
     ~Ingame();
 
-    void Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting);
+    void Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font);
 
     void update();
 

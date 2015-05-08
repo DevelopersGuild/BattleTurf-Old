@@ -29,6 +29,7 @@ private:
     Graphics
     ****************************/
     sf::RenderWindow window;
+    sf::Font *font;
 
     /*********************************
     Functions

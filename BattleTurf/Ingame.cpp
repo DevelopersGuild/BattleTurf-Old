@@ -14,12 +14,13 @@ Ingame::~Ingame()
     delete [] player_order;
 }
 
-void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting)
+void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font)
 {
     ptrwindow = window;
     ptrevent = event;
     ptrMousePosition = mouseposition;
     ptrgameSetting = gameSetting;
+    ptrfont = font;
 
     //temporary
     player = new Player[ptrgameSetting->NUM_PLAYER];
@@ -36,8 +37,6 @@ void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mous
 
     Graphing_player_score = new sf::Text[4];
 
-    font.loadFromFile("arial.ttf");
-
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
@@ -51,7 +50,7 @@ void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mous
     GraphingRect1.setOutlineThickness(5);                //Outline, the "border" of the rectangle
     GraphingRect1.setOutlineColor(sf::Color::Black);     //the color of the outline is black
 
-    Graphing_scorebox.setFont(font);
+    Graphing_scorebox.setFont(*ptrfont);
     Graphing_scorebox.setColor(sf::Color::Black);
     Graphing_scorebox.setCharacterSize(60);
     Graphing_scorebox.setStyle(sf::Text::Regular);
@@ -59,7 +58,7 @@ void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mous
 
     for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
     {
-        Graphing_player_score[i].setFont(font);
+        Graphing_player_score[i].setFont(*ptrfont);
         Graphing_player_score[i].setColor(sf::Color::White);
         Graphing_player_score[i].setCharacterSize(30);
         Graphing_player_score[i].setStyle(sf::Text::Regular);
@@ -78,7 +77,7 @@ void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mous
                 box[i][j].setwall();
             }
 
-            box[i][j].Graphing_score.setFont(font);
+            box[i][j].Graphing_score.setFont(*ptrfont);
             box[i][j].Graphing_score.setColor(sf::Color::Black);
             box[i][j].Graphing_score.setCharacterSize(30);
             box[i][j].Graphing_score.setStyle(sf::Text::Regular);
@@ -89,6 +88,7 @@ void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mous
 
     Mech_Set_Score_Pool();
     Mech_Set_Wall();
+    Mech_Reset_Player_Scores();
 }
 
 void Ingame::update()

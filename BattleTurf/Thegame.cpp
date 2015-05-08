@@ -15,9 +15,12 @@ Game::Game()
     game.BOX_SIZE = 55;        //the size of the box
     game.INTERFACE_SIZE = game.NUM_BOX_WIDTH * game.BOX_SIZE / 2; //the width of the interface
 
-    intro.Init(&window, &game);
-    ingame.Init(&window,&event,&mouseposition, &game);
-    menu.Initialize(&window,&event);
+    font = new sf::Font;
+    font->loadFromFile("arial.ttf");
+
+    intro.Init(&window, &game, font);
+    ingame.Init(&window,&event,&mouseposition, &game, font);
+    menu.Initialize(&window,&event,&mouseposition, &game, font);
 
 }
 /*********************************************
@@ -26,6 +29,7 @@ Create window, update Graphics and loop the events.
 *********************************************/
 void Game::start()
 {
+
     window.create(sf::VideoMode(game.NUM_BOX_WIDTH * game.BOX_SIZE + game.INTERFACE_SIZE, game.NUM_BOX_HEIGHT * game.BOX_SIZE),
                    "BattleTurf",sf::Style::Close);
     //start with intro
@@ -51,6 +55,11 @@ void Game::start()
                 {
                     game_state = Maingame;
                 }
+
+                if(event.type == sf::Event::MouseMoved)
+                {
+                    menu.Mousemoved();
+                }
             }
         }
         else if(game_state == Maingame)
@@ -58,9 +67,7 @@ void Game::start()
             ingame.update();
             ingame.Show_Cursor_Box();
             if(window.waitEvent(event))
-            {
                 ingame.HandleEvent();
-            }
         }
     }
 }

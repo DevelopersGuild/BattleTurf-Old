@@ -6,10 +6,11 @@ Intro::Intro()
 
 }
 
-void Intro::Init(sf::RenderWindow *window,Game_data *setting)
+void Intro::Init(sf::RenderWindow *window,Game_data *setting, sf::Font *font)
 {
     ptrwindow = window;
     ptrsetting = setting;
+    ptrfont = font;
 
     introBackground.setFillColor(sf::Color());
     introBackground.setSize(sf::Vector2f(ptrsetting->NUM_BOX_WIDTH * ptrsetting->BOX_SIZE + ptrsetting->INTERFACE_SIZE,
@@ -21,9 +22,7 @@ void Intro::Play()
     sf::Clock clock;
     sf::Time t1 = sf::milliseconds(6);
 
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    sf::Text text("Battle Turf", font, 90);
+    sf::Text text("Battle Turf", *ptrfont, 90);
     text.setPosition(250,250);
 
     //whiten the screen
@@ -68,7 +67,6 @@ void Intro::Play()
 
         ptrwindow->display();
     }
-
 
 }
 

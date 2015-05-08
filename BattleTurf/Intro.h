@@ -13,12 +13,13 @@ class Intro
 private:
     Game_data *ptrsetting;
     sf::RenderWindow *ptrwindow;
+    sf::Font *ptrfont;
 
     sf::RectangleShape introBackground;
 public:
     Intro();
 
-    void Init(sf::RenderWindow *window, Game_data *setting);
+    void Init(sf::RenderWindow *window, Game_data *setting, sf::Font *font);
 
     void Play();
 
