@@ -36,6 +36,7 @@ private:
     *********************************/
     void getMousePosition();
     bool isMouseingame();
+    bool isMouseinWindow();
 
 
 public:

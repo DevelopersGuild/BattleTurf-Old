@@ -66,13 +66,12 @@ void Game::start()
 
                 if(event.type == sf::Event::MouseButtonPressed)
                 {
-                    if(isMouseingame())
+                    if(isMouseinWindow())
                     menu->Mouseclicked();
                 }
 
                 if(event.type == sf::Event::MouseMoved)
                 {
-                    if(isMouseingame())
                     menu->Mousemoved();
                 }
             }
@@ -80,7 +79,10 @@ void Game::start()
         else if(game_state == Maingame)
         {
             ingame->update();
-            ingame->Show_Cursor_Box();
+            if(isMouseingame())
+            {
+                ingame->Show_Cursor_Box();
+            }
             if(window.waitEvent(event))
                 ingame->HandleEvent();
         }
@@ -98,8 +100,15 @@ and determine the box that the cursor is pointing at.
 void Game::getMousePosition()
 {
     //get the position of the mouse, make sure the mouse is in the window!
-    if(isMouseingame())
-    mouseposition = sf::Mouse::getPosition(window);
+    if(game_state == Maingame) // if the game started, make sure it is in the map
+    {
+            mouseposition = sf::Mouse::getPosition(window);
+    }
+    else if(isMouseinWindow())
+    {
+        mouseposition = sf::Mouse::getPosition(window);
+    }
+
 }
 
 /*********************************************
@@ -116,4 +125,16 @@ bool Game::isMouseingame()
          return true;
     }
     return false;
+}
+
+bool Game::isMouseinWindow()
+{
+        if( sf::Mouse::getPosition(window).x > 0
+        && sf::Mouse::getPosition(window).y > 0
+        && sf::Mouse::getPosition(window).x < gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE
+        && sf::Mouse::getPosition(window).y < gamedata.NUM_BOX_HEIGHT * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE)
+        {
+            return true;
+        }
+        return false;
 }

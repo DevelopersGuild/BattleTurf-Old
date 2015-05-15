@@ -21,6 +21,12 @@ private:
     sf::RectangleShape menubutton_exit;
     sf::Text menubutton_exit_text;
 
+    sf::RectangleShape settingbutton_next;
+    sf::Text settingbutton_next_text;
+
+    sf::RectangleShape settingbutton_back;
+    sf::Text settingbutton_back_text;
+
     Menu_state menu_state;
 
 public:
