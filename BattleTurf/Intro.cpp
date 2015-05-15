@@ -6,15 +6,15 @@ Intro::Intro()
 
 }
 
-void Intro::Init(sf::RenderWindow *window,Game_data *setting, sf::Font *font)
+Intro::Intro(sf::RenderWindow *window, Game_data *setting, sf::Font *font)
 {
     ptrwindow = window;
-    ptrsetting = setting;
+    ptrgameSetting = setting;
     ptrfont = font;
 
     introBackground.setFillColor(sf::Color());
-    introBackground.setSize(sf::Vector2f(ptrsetting->NUM_BOX_WIDTH * ptrsetting->BOX_SIZE + ptrsetting->INTERFACE_SIZE,
-                                          ptrsetting->NUM_BOX_HEIGHT * ptrsetting->BOX_SIZE));
+    introBackground.setSize(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + ptrgameSetting->INTERFACE_SIZE,
+                                          ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE));
 }
 
 void Intro::Play()

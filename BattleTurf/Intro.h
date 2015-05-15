@@ -2,24 +2,20 @@
 #define INTRO_H_INCLUDED
 #include <SFML/Graphics.hpp>
 #include "Ingame.h"
+#include "Game_State.h"
 
 
 
 /****************************
 The intro animation when opening the game
 *****************************/
-class Intro
+class Intro : public Game_State
 {
 private:
-    Game_data *ptrsetting;
-    sf::RenderWindow *ptrwindow;
-    sf::Font *ptrfont;
-
     sf::RectangleShape introBackground;
 public:
     Intro();
-
-    void Init(sf::RenderWindow *window, Game_data *setting, sf::Font *font);
+    Intro(sf::RenderWindow *window, Game_data *setting, sf::Font *font);
 
     void Play();
 

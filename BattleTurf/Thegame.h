@@ -15,16 +15,16 @@ private:
     sf::Vector2i mouseposition; //a vector variable for the cursor's position
     sf::Event event;
 
-    enum Game_state{Start = 0,Menu = 1,Maingame = 2};
-    Game_state game_state;
+    enum Game_state_num{Start = 0,Menu = 1,Maingame = 2};
+    Game_state_num game_state;
 
     /****************************
     Game operating
     ****************************/
-    Game_data game;
-    Game_Menu menu;
-    Ingame ingame;
-    Intro intro;
+    Game_data gamedata;
+    Game_Menu *menu;
+    Ingame *ingame;
+    Intro *intro;
     /****************************
     Graphics
     ****************************/
@@ -35,7 +35,7 @@ private:
     Functions
     *********************************/
     void getMousePosition();
-    bool isMouseinGame();
+    bool isMouseingame();
 
 
 public:

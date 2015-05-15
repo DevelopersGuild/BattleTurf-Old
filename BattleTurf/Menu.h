@@ -3,16 +3,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "Ingame.h"
+#include "Game_State.h"
 
-enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_ingame = 5};
+enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_ingame = 5, terminated = 6};
 
-class Game_Menu
+class Game_Menu : public Game_State
 {
 private:
-    //the font used
-    sf::Font *ptrfont;
     sf::Text menu_Title;
-    sf::Vector2i *ptrmouseposition;
 
     //the background of menu
     sf::RectangleShape menu_background;
@@ -23,16 +21,12 @@ private:
     sf::RectangleShape menubutton_exit;
     sf::Text menubutton_exit_text;
 
-    Game_data *ptrsetting;
     Menu_state menu_state;
 
-    sf::RenderWindow *ptrwindow;
-    const sf::Event *ptrevent;
 public:
     //constructor
     Game_Menu();
-    //Initialize the elements
-    void Initialize(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font);
+    Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font);
 
     //update the graphic
     void update();
