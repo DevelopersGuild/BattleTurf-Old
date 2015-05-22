@@ -250,8 +250,10 @@ void Ingame::Show_Cursor_Box()
 
 void Ingame::Event_MouseLeftClicked()
 {
-    if(currentbox->capture_directly_by(*(player_order[current_active_player]), player_order[current_active_player]->getscore_order(turn_passed)))
+    if(isMouseinGame())
     {
+        if(currentbox->capture_directly_by(*(player_order[current_active_player]), player_order[current_active_player]->getscore_order(turn_passed)))
+        {
         //update the graphing score
         Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed),
                              currentbox->Graphing_score);
@@ -265,7 +267,9 @@ void Ingame::Event_MouseLeftClicked()
         Mech_Calculate_Score();
 
         Mech_NextPlayer();
+        }
     }
+
 }
 
 void Ingame::Mech_NextPlayer()
@@ -420,4 +424,17 @@ void Ingame::Mech_Rearrange_order()
         player_order[target] = player_order[i];
         player_order[i] = minimum;
     }
+}
+
+bool Ingame::isMouseinGame()
+{
+
+    if( ptrMousePosition->x > 0
+        && ptrMousePosition->y > 0
+        && ptrMousePosition->x < ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE
+        && ptrMousePosition->y < ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE)
+    {
+         return true;
+    }
+    return false;
 }

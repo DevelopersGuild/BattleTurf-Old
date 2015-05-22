@@ -14,10 +14,13 @@ private:
 
     //the background of menu
     sf::RectangleShape menu_background;
+
+    //the (testing) image of menu
+    sf::Texture gameTitle;
+    sf::RectangleShape gameTitleRect;
     //the button(s) of menu
     sf::RectangleShape menubutton_start;
     sf::Text menubutton_start_text;
-
     sf::RectangleShape menubutton_exit;
     sf::Text menubutton_exit_text;
 
@@ -27,7 +30,13 @@ private:
     sf::RectangleShape settingbutton_back;
     sf::Text settingbutton_back_text;
 
+    //debug text
+    sf::Text debug_menustate;
+
     Menu_state menu_state;
+
+    void setting_nextButton();
+    void setting_backButton();
 
 public:
     //constructor

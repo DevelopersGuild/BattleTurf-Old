@@ -57,6 +57,7 @@ private:
     void Mech_Rearrange_order();
 
     void Graphic_int_ToString(int value, sf::Text &targettext);
+    bool isMouseinGame();
 
 public:
     Ingame();
