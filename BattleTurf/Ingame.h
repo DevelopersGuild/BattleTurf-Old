@@ -40,6 +40,10 @@ private:
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text *Graphing_player_score;
 
+    //box texture
+    sf::Texture box_texture;
+    sf::Texture box_texture_wall;
+
     /******************
     Functions
     ******************/

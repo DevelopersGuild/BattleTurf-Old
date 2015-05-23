@@ -13,7 +13,7 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     //initialize the gametitle picture
     gameTitleRect.setPosition(150,25);
     gameTitleRect.setSize(sf::Vector2f(250,200));
-    gameTitle.loadFromFile("test.png");
+    gameTitle.loadFromFile("Texture/test.png");
     gameTitleRect.setTexture(&gameTitle);
 
     //get the pointers
