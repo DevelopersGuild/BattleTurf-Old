@@ -4,11 +4,14 @@
 #include<SFML/Graphics.hpp>
 #include "Player.h"
 
+enum Boxstate {non_occupied = 0, occupied = 1, wall = 2};
+
 class Box
 {
     //friend class Box;
 private:
-    int boxstate;   //0 = non occupied, 1 = occupied, 2 = wall
+       //0 = non occupied, 1 = occupied, 2 = wall
+    Boxstate boxstate;
     Player *owner;  //a pointer pointing to the owner
     int score;  //score range : 3~30
     sf::RectangleShape rect;
@@ -28,12 +31,15 @@ public:
 
     Player* getowner(){return owner;}
     int getscore(){return score;}
-    int getstate(){return boxstate;}
+    Boxstate getstate(){return boxstate;}
 
     void show(sf::RenderWindow *window);
     void setPosition(float x,float y);
     void setFillColor(sf::Color color);
+    void setTexture(const sf::Texture &texture){rect.setTexture(&texture,true);}
     void setwall();
+
+    sf::Text Graphing_score;    //the score for graphing only, it doesn't change the game.
 };
 
 #endif // BOX_H_INCLUDED

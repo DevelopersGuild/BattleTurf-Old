@@ -14,7 +14,7 @@ Constructor
 **********************************************/
 Box::Box()
 {
-    boxstate = 0;
+    boxstate = non_occupied;
     score = 0;
     rect.setSize(sf::Vector2f(50,50));
     rect.setPosition(0,0);
@@ -65,7 +65,7 @@ Capture if it is another player and the incoming box has a greater score.
 **********************************************/
 bool Box::check(Box *box)
 {
-    if(boxstate == 1)
+    if(boxstate == occupied)
     {
         if(box->getowner() == owner)
         {
@@ -88,7 +88,7 @@ bool Box::capture_directly_by(Player &player, int scorenum)
 {
     if(boxstate == 0)
     {
-        boxstate = 1;
+        boxstate = occupied;
         score = scorenum;
         owner = &player;
         rect.setFillColor(player.getcolor());
@@ -121,6 +121,6 @@ Set the box as wall.
 **********************************************/
 void Box::setwall()
 {
-    boxstate = 2;
-    rect.setFillColor(sf::Color::Black);
+    boxstate = wall;
+    rect.setFillColor(sf::Color(224,224,224,255));
 }
