@@ -66,7 +66,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
         {
-            box[i][j].setPosition(55 *i, 55 * j);
+            box[i][j].setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
             //setedge
             if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)
             {
@@ -230,7 +230,7 @@ void Ingame::Event_MouseMoved()
 void Ingame::Show_Cursor_Box()
 {
     //get the current box
-    currentbox = &box[ptrMousePosition->x / 55][ptrMousePosition->y / 55];
+    currentbox = &box[ptrMousePosition->x / ptrgameSetting->BOX_SIZE][ptrMousePosition->y / ptrgameSetting->BOX_SIZE];
 
     if(currentbox != lastbox)
     {

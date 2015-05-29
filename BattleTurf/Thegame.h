@@ -28,6 +28,7 @@ private:
     /****************************
     Graphics
     ****************************/
+    sf::VideoMode videoMode;
     sf::RenderWindow window;
     sf::Font *font;
 

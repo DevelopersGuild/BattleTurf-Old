@@ -16,7 +16,7 @@ Box::Box()
 {
     boxstate = non_occupied;
     score = 0;
-    rect.setSize(sf::Vector2f(50,50));
+    rect.setSize(sf::Vector2f(gameData.BOX_SIZE,gameData.BOX_SIZE));
     rect.setPosition(0,0);
     rect.setFillColor(sf::Color::White);
     rect.setOutlineColor(sf::Color::Black);
