@@ -17,7 +17,7 @@ private:
 public:
     Graphic_button();
     Graphic_button(sf::Font *font);
-    Graphic_button(float length, float height, int x, int y);
+    Graphic_button(float length, float height, int x, int y, sf::Font* fontPtr);
     void setString(sf::String str){text.setString(str);}
 
     bool isCursor_On_button(const sf::Vector2i &mouseposition);
