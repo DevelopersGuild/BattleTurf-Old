@@ -33,13 +33,6 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
     Graphing_player_score = new sf::Text[4];
 
-    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
-    {
-        for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
-        {
-        }
-    }
-
     GraphingRect1.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
     GraphingRect1.setSize(sf::Vector2f(ptrgameSetting->INTERFACE_SIZE, ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE / 2));      //the size
     GraphingRect1.setPosition(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + 5, 0));                //the position
@@ -62,15 +55,21 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
         Graphing_player_score[i].setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE, ptrgameSetting->INTERFACE_SIZE + i * 20);
     }
 
+    //load box texture
+    box_texture.loadFromFile("Texture/box_texture.png");
+    box_texture_wall.loadFromFile("Texture/box_wall.png");
+
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
         {
             box[i][j].setPosition(55 *i, 55 * j);
+            box[i][j].setTexture(box_texture);
             //setedge
             if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)
             {
                 box[i][j].setwall();
+                box[i][j].setTexture(box_texture_wall);
             }
 
             box[i][j].Graphing_score.setFont(*ptrfont);
@@ -78,7 +77,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
             box[i][j].Graphing_score.setCharacterSize(30);
             box[i][j].Graphing_score.setStyle(sf::Text::Regular);
             box[i][j].Graphing_score.setString("0");
-            box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
+            box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ 5, ptrgameSetting->BOX_SIZE * j + 3);
         }
     }
 
@@ -93,84 +92,6 @@ Ingame::~Ingame()
     delete [] Graphing_player_score;
     delete [] player_order;
 }
-/*
-void Ingame::Init(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font)
-{
-    ptrwindow = window;
-    ptrevent = event;
-    ptrMousePosition = mouseposition;
-    ptrgameSetting = gameSetting;
-    ptrfont = font;
-
-    //temporary
-    player = new Player[ptrgameSetting->NUM_PLAYER];
-    player[0].setcolor(sf::Color::Blue);
-    player[1].setcolor(sf::Color::Red);
-    player[2].setcolor(sf::Color::Green);
-    player[3].setcolor(sf::Color::Yellow);
-
-    player_order = new Player*[ptrgameSetting->NUM_PLAYER];
-    for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
-    {
-        player_order[i] = player + i;
-    }
-
-    Graphing_player_score = new sf::Text[4];
-
-    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)          //initializing each element of score[][]
-    {
-        for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
-        {
-        }
-    }
-
-    GraphingRect1.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
-    GraphingRect1.setSize(sf::Vector2f(ptrgameSetting->INTERFACE_SIZE, ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE / 2));      //the size
-    GraphingRect1.setPosition(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + 5, 0));                //the position
-    GraphingRect1.setOutlineThickness(5);                //Outline, the "border" of the rectangle
-    GraphingRect1.setOutlineColor(sf::Color::Black);     //the color of the outline is black
-
-    Graphing_scorebox.setFont(*ptrfont);
-    Graphing_scorebox.setColor(sf::Color::Black);
-    Graphing_scorebox.setCharacterSize(60);
-    Graphing_scorebox.setStyle(sf::Text::Regular);
-    Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->INTERFACE_SIZE / 2), ptrgameSetting->INTERFACE_SIZE / 3);
-
-    for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
-    {
-        Graphing_player_score[i].setFont(*ptrfont);
-        Graphing_player_score[i].setColor(sf::Color::White);
-        Graphing_player_score[i].setCharacterSize(30);
-        Graphing_player_score[i].setStyle(sf::Text::Regular);
-        Graphing_player_score[i].setString("0");
-        Graphing_player_score[i].setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE, ptrgameSetting->INTERFACE_SIZE + i * 20);
-    }
-
-    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
-    {
-        for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
-        {
-            box[i][j].setPosition(55 *i, 55 * j);
-            //setedge
-            if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)
-            {
-                box[i][j].setwall();
-            }
-
-            box[i][j].Graphing_score.setFont(*ptrfont);
-            box[i][j].Graphing_score.setColor(sf::Color::Black);
-            box[i][j].Graphing_score.setCharacterSize(30);
-            box[i][j].Graphing_score.setStyle(sf::Text::Regular);
-            box[i][j].Graphing_score.setString("0");
-            box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
-        }
-    }
-
-    Mech_Set_Score_Pool();
-    Mech_Set_Wall();
-    Mech_Reset_Player_Scores();
-}
-*/
 void Ingame::update()
 {
     ptrwindow->clear();
@@ -329,6 +250,7 @@ void Ingame::Mech_Set_Wall()
         if(box[target1][target2].getstate() != 2)
         {
             box[target1][target2].setwall();
+            box[target1][target2].setTexture(box_texture_wall);
             count++;
         }
     }
@@ -340,7 +262,7 @@ Mech_Check_adjacent
 *********************************************/
 void Ingame::Mech_Check_adjacent()
 {
-    Box *adjacentBox[] = {  currentbox -1,                                  //up
+    Box *adjacentBox[] = {  currentbox - 1,                                  //up
                             currentbox + 1,                                 //down
                             currentbox - ptrgameSetting->NUM_BOX_HEIGHT,    //left
                             currentbox + ptrgameSetting->NUM_BOX_HEIGHT,    //right
