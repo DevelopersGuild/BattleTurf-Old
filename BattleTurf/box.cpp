@@ -122,5 +122,5 @@ Set the box as wall.
 void Box::setwall()
 {
     boxstate = wall;
-    rect.setFillColor(sf::Color(224,224,224,25));
+    rect.setFillColor(sf::Color(224,224,224,255));
 }

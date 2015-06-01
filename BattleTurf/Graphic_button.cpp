@@ -9,25 +9,16 @@ Graphic_button::Graphic_button(sf::Font *font){
 }
 
 
-Graphic_button::Graphic_button(float length, float height, int x, int y)
+Graphic_button::Graphic_button(float length, float height, int x, int y, sf::Font* fontPtr)
 {
-    /* JUST TO TEST THE FONT */
-    sf::Font *font  = new sf::Font;
-    font->loadFromFile("arial.ttf");
-    fontptr = font;
-    ///////////////
-    
     this->setPosition(xPos, yPos);
-    this->setFillColor(sf::Color::Blue);
+    this->setFillColor(sf::Color(204, 255, 153));
     this->setSize(sf::Vector2f(length, height));
-    
-    //TO TEST THE TEXT, MODIFY LATER
+   
     text.setCharacterSize(24);
-    text.setString("ASDASD");
     text.setColor(sf::Color::Black);
-    text.setPosition(xPos+10, yPos+10);
-    text.setFont(*fontptr);
-    ///////
+    text.setPosition(xPos+(static_cast<int>(length/15)), yPos+(static_cast<int>(height/5))); //This part has to be changed later, try different numbers, use ratio, don't use direct addition
+    text.setFont(*fontPtr);
 }
 
 

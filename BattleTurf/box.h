@@ -37,6 +37,7 @@ public:
     void show(sf::RenderWindow *window);
     void setPosition(float x,float y);
     void setFillColor(sf::Color color);
+    void setTexture(const sf::Texture &texture){rect.setTexture(&texture,true);}
     void setwall();
 
     sf::Text Graphing_score;    //the score for graphing only, it doesn't change the game.
