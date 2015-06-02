@@ -58,13 +58,20 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     //load box texture
     box_texture.loadFromFile("Texture/box_texture.png");
     box_texture_wall.loadFromFile("Texture/box_wall.png");
+    
+    
+    for (int i = 0; i<12; i++){
+        for (int j = 0; j<12; j++){
+            box[i][j].setSize(ptrgameSetting->BOX_SIZE);
+        }
+    }
 
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
         {
             box[i][j].setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
-            box[i][j].setPosition(55 *i, 55 * j);
+            box[i][j].setPosition(ptrgameSetting->BOX_SIZE *i, ptrgameSetting->BOX_SIZE * j);
             box[i][j].setTexture(box_texture);
             //setedge
             if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)

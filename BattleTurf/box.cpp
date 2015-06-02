@@ -12,16 +12,30 @@ The box remember its owner by a pointer "owner" which is pointing to a player cl
 /*********************************************
 Constructor
 **********************************************/
-Box::Box()
+Box::Box() //This default constructor is needed to make array of box
 {
     boxstate = non_occupied;
     score = 0;
-    rect.setSize(sf::Vector2f(gameData.BOX_SIZE,gameData.BOX_SIZE));
     rect.setPosition(0,0);
     rect.setFillColor(sf::Color::White);
     rect.setOutlineColor(sf::Color::Black);
     rect.setOutlineThickness(2);
 }
+
+Box::Box(int size){
+    boxstate = non_occupied;
+    score = 0;
+    rect.setSize(sf::Vector2f(size, size));
+    rect.setPosition(0,0);
+    rect.setFillColor(sf::Color::White);
+    rect.setOutlineColor(sf::Color::Black);
+    rect.setOutlineThickness(2);
+}
+
+void Box::setSize(int size){
+    rect.setSize(sf::Vector2f(size, size));
+}
+
 /*********************************************
 setrect function
 change the settings of the rectangle.

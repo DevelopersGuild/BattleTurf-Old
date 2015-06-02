@@ -2,7 +2,6 @@
 #define BOX_H_INCLUDED
 
 #include<SFML/Graphics.hpp>
-#include "Game_State.h"
 #include "Player.h"
 
 enum Boxstate {non_occupied = 0, occupied = 1, wall = 2};
@@ -16,7 +15,6 @@ private:
     Player *owner;  //a pointer pointing to the owner
     int score;  //score range : 3~30
     sf::RectangleShape rect;
-    Game_data gameData;
     void capture_Indirectly_by(Box *box);
     void fortify();
 
@@ -29,6 +27,7 @@ public:
 
     void setscore(int num){score = num;}
     void setrect(int size, int position_x, int position_y,int thickness);
+    void setSize (int size);
 
     Player* getowner(){return owner;}
     int getscore(){return score;}

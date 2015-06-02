@@ -178,6 +178,7 @@ when mouse moved, do something...
 ******************/
 void Game_Menu::Mousemoved()
 {
+    
     //if cursor is in menu_start button
     if(menu_state == mainmenu && ptrMousePosition->x > 375 && ptrMousePosition->x < 525
        && ptrMousePosition->y > 250 && ptrMousePosition->y < 300)

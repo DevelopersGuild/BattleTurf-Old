@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ingame.h"
 #include "Game_State.h"
+#include "Graphic_button.h"
 
 enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_ingame = 5, terminated = 6};
 
@@ -15,6 +16,14 @@ private:
     //the background of menu
     sf::RectangleShape menu_background;
 
+    sf::RectangleShape startButton;
+    sf::RectangleShape exitButton;
+    
+    sf::Texture startButtonImage;
+    sf::Texture exitButtonImage;
+    sf::Texture startButtonImageFocus;
+    sf::Texture exitButtonImageFocus;
+    
     //the (testing) image of menu
     sf::Texture gameTitle;
     sf::RectangleShape gameTitleRect;
@@ -37,6 +46,8 @@ private:
 
     void setting_nextButton();
     void setting_backButton();
+    
+    
 
 public:
     //constructor
