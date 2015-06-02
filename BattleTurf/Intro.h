@@ -13,8 +13,6 @@ class Intro : public Game_State
 {
 private:
     sf::RectangleShape introBackground;
-    sf::RectangleShape introImageRectangle;
-    sf::Texture introImage;
 public:
     Intro();
     Intro(sf::RenderWindow *window, Game_data *setting, sf::Font *font);
