@@ -1,4 +1,5 @@
 #include "Graphic_button.h"
+#include <iostream>
 
 Graphic_button::Graphic_button()
 {
@@ -11,12 +12,12 @@ Graphic_button::Graphic_button(sf::Font *font){
 Graphic_button::Graphic_button(float length, float height, int x, int y, std::string image, std::string imageFocus){
     thereIsText = false;
     
-    xPos = x;
-    yPos = y;
-    this-> length = length;
-    this-> height = height;
+    this->xPos = x;
+    this->yPos = y;
+    this->length = length;
+    this->height = height;
     
-    this->setPosition(x, y);
+    this->setPosition(xPos, yPos);
     this->setSize(sf::Vector2f(length, height));
     this->texture.loadFromFile(image);
     this->textureFocus.loadFromFile(imageFocus);
@@ -31,8 +32,9 @@ Graphic_button::Graphic_button(float length, float height, int x, int y, sf::Fon
     
     xPos = x;
     yPos = y;
-    this-> length = length;
-    this-> height = height;
+    this->length = length;
+    this->height = height;
+    
     
     this->setPosition(xPos, yPos);
     this->setFillColor(sf::Color(204, 255, 153));
@@ -45,10 +47,10 @@ Graphic_button::Graphic_button(float length, float height, int x, int y, sf::Fon
 }
 
 
-bool Graphic_button::isCursor_On_button(const sf::Vector2i &mouseposition)
-{
-    if (mouseposition.x >= xPos && mouseposition.x <= xPos+length &&
-        mouseposition.y >= yPos && mouseposition.y <= yPos+height){
+bool Graphic_button::isCursor_On_button(const sf::Vector2i* mouseposition)
+{   
+    if (mouseposition->x >= xPos && mouseposition->x <= xPos+length &&
+        mouseposition->y >= yPos && mouseposition->y <= yPos+height){
         
         if (this->getTexture() == &texture) this->setTexture(&textureFocus);
         return true;

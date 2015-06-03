@@ -11,10 +11,11 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     menu_state = mainmenu;
 
     //initialize the gametitle picture
-    gameTitleRect.setPosition(150,25);
-    gameTitleRect.setSize(sf::Vector2f(250,200));
-    gameTitle.loadFromFile("Texture/test.png");
+    
+    gameTitleRect.setSize(sf::Vector2f(6*ptrsetting->BOX_SIZE, 4*ptrsetting->BOX_SIZE));
+    gameTitle.loadFromFile("Texture/image_text_3_2.png");
     gameTitleRect.setTexture(&gameTitle);
+    gameTitleRect.setPosition(6*(ptrsetting->BOX_SIZE), 1*(ptrsetting->BOX_SIZE));
 
     //get the pointers
     ptrwindow = window;
@@ -23,35 +24,20 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     ptrfont = font;
 
     //initialize the background
-    menu_background.setFillColor(sf::Color(224,224,224,140));
+    menu_background.setFillColor(sf::Color(255,255,255,255));
     menu_background.setSize(sf::Vector2f(ptrsetting->NUM_BOX_WIDTH * ptrsetting->BOX_SIZE + ptrsetting->INTERFACE_SIZE,
                                           ptrsetting->NUM_BOX_HEIGHT * ptrsetting->BOX_SIZE));
 
     //initialize the start button in mainmenu
-    menubutton_start.setFillColor(sf::Color(204,255,153));
-    menubutton_start.setPosition(375,250);
-    menubutton_start.setSize(sf::Vector2f(150,50));
-    menubutton_start_text.setFont(*font);
-    menubutton_start_text.setString("Start");
-    menubutton_start_text.setColor(sf::Color::Black);
-    menubutton_start_text.setCharacterSize(24);
-    menubutton_start_text.setPosition(420,260);
+    startButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
+                                     11*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
+                                     "Texture/button_start_2_1.png", "Texture/button_start_focus_2_1.png");
 
     //initialize the exit button in mainmenu
-    menubutton_exit.setFillColor(sf::Color(204,255,153));
-    menubutton_exit.setPosition(375,425);
-    menubutton_exit.setSize(sf::Vector2f(150,50));
-    menubutton_exit_text.setFont(*font);
-    menubutton_exit_text.setString("Exit");
-    menubutton_exit_text.setColor(sf::Color::Black);
-    menubutton_exit_text.setCharacterSize(24);
-    menubutton_exit_text.setPosition(420,435);
+    exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
+                                    3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
+                                     "Texture/button_exit_2_1.png", "Texture/button_exit_focus_2_1.png");
 
-    //the picture of game title
-    menu_Title.setFont(*font);
-    menu_Title.setString("Battle Turf");
-    menu_Title.setCharacterSize(90);
-    menu_Title.setPosition(420,50);
 
     //initialize the next button in setting screen
     settingbutton_next.setFillColor(sf::Color(204,255,153));
@@ -90,16 +76,13 @@ void Game_Menu::update()
     //clear the window first
     ptrwindow->clear();
     ptrwindow->draw(menu_background);   //the background must be drawn
+    ptrwindow->draw(gameTitleRect);
 
     //in case the menu state is mainmenu
     if(menu_state == mainmenu)
     {
-        ptrwindow->draw(menu_Title);
-        ptrwindow->draw(menubutton_start);
-        ptrwindow->draw(menubutton_start_text);
-        ptrwindow->draw(menubutton_exit);
-        ptrwindow->draw(menubutton_exit_text);
-        ptrwindow->draw(gameTitleRect);
+        startButton->addInto(ptrwindow);
+        exitButton->addInto(ptrwindow);
     }
     else if(menu_state == setting1)     //setting 1
     {
@@ -142,15 +125,13 @@ when mouse click something, do something...
 void Game_Menu::Mouseclicked()
 {
     //if the mouse click the "start" button in mainmenu
-    if(menu_state == mainmenu && ptrMousePosition->x > 375 && ptrMousePosition->x < 525
-       && ptrMousePosition->y > 250 && ptrMousePosition->y < 300)
+    if(startButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = setting1;
     }
 
      //if the mouse click the "exit" button in mainmenu
-    if(menu_state == mainmenu && ptrMousePosition->x > 375 && ptrMousePosition->x < 525
-       && ptrMousePosition->y > 425 && ptrMousePosition->y < 475)
+    if(exitButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = terminated;
     }
@@ -179,26 +160,16 @@ when mouse moved, do something...
 void Game_Menu::Mousemoved()
 {
     
-    //if cursor is in menu_start button
-    if(menu_state == mainmenu && ptrMousePosition->x > 375 && ptrMousePosition->x < 525
-       && ptrMousePosition->y > 250 && ptrMousePosition->y < 300)
+   // if cursor is in menu_start button
+    if(startButton->isCursor_On_button(ptrMousePosition))
     {
-        menubutton_start.setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        menubutton_start.setFillColor(sf::Color(204,255,153));
+        //
     }
 
     //if cursor is in exit button
-    if(menu_state == mainmenu && ptrMousePosition->x > 375 && ptrMousePosition->x < 525
-       && ptrMousePosition->y > 425 && ptrMousePosition->y < 475)
+    if(exitButton->isCursor_On_button(ptrMousePosition))
     {
-        menubutton_exit.setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        menubutton_exit.setFillColor(sf::Color(204,255,153));
+        //
     }
 
     //if cursor is in next button
