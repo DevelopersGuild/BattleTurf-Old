@@ -250,3 +250,11 @@ pip-log.txt
 *.exe
 *.out
 *.app
+
+
+#############
+XCODE
+#############
+DerivedData/
+BattleTurf.xcodeproj
+Build/
