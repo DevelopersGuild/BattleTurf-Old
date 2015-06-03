@@ -11,28 +11,19 @@ enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_inga
 class Game_Menu : public Game_State
 {
 private:
-    sf::Text menu_Title;
 
     //the background of menu
     sf::RectangleShape menu_background;
 
-    sf::RectangleShape startButton;
-    sf::RectangleShape exitButton;
+    Graphic_button* startButton;
+    Graphic_button* exitButton;
     
-    sf::Texture startButtonImage;
-    sf::Texture exitButtonImage;
-    sf::Texture startButtonImageFocus;
-    sf::Texture exitButtonImageFocus;
     
     //the (testing) image of menu
     sf::Texture gameTitle;
     sf::RectangleShape gameTitleRect;
-    //the button(s) of menu
-    sf::RectangleShape menubutton_start;
-    sf::Text menubutton_start_text;
-    sf::RectangleShape menubutton_exit;
-    sf::Text menubutton_exit_text;
-
+    
+    
     sf::RectangleShape settingbutton_next;
     sf::Text settingbutton_next_text;
 

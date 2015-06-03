@@ -29,7 +29,7 @@ public:
     
     void setString(sf::String str){text.setString(str);}
 
-    bool isCursor_On_button(const sf::Vector2i &mouseposition);
+    bool isCursor_On_button(const sf::Vector2i* mouseposition);
     void addInto(sf::RenderWindow* windowPtr);
 };
 

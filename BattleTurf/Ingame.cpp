@@ -40,7 +40,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     GraphingRect1.setOutlineColor(sf::Color::Black);     //the color of the outline is black
 
     Graphing_scorebox.setFont(*ptrfont);
-    Graphing_scorebox.setColor(sf::Color::Black);
+    Graphing_scorebox.setColor(sf::Color::White);
     Graphing_scorebox.setCharacterSize(60);
     Graphing_scorebox.setStyle(sf::Text::Regular);
     Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->INTERFACE_SIZE / 2), ptrgameSetting->INTERFACE_SIZE / 3);
