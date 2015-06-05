@@ -31,6 +31,15 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
         player_order[i] = player + i;
     }
 
+
+    //declare the box here
+    box = new Box*[ptrgameSetting->NUM_BOX_WIDTH];
+    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
+    {
+        box[i] = new Box[ptrgameSetting->NUM_BOX_HEIGHT];
+    }
+
+
     Graphing_player_score = new sf::Text[4];
 
     GraphingRect1.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
@@ -78,6 +87,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
             box[i][j].Graphing_score.setStyle(sf::Text::Regular);
             box[i][j].Graphing_score.setString("0");
             box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ 5, ptrgameSetting->BOX_SIZE * j + 3);
+
         }
     }
 
@@ -88,6 +98,13 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
 Ingame::~Ingame()
 {
+
+    for(int i = 0; i <ptrgameSetting->NUM_BOX_WIDTH; i++)
+    {
+        delete [] box[i];
+    }
+
+    delete [] box;
     delete [] player;
     delete [] Graphing_player_score;
     delete [] player_order;

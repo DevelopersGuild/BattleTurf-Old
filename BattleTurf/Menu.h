@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ingame.h"
 #include "Game_State.h"
+#include "Graphic_button.h"
 
 enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_ingame = 5, terminated = 6};
 
@@ -19,16 +20,21 @@ private:
     sf::Texture gameTitle;
     sf::RectangleShape gameTitleRect;
     //the button(s) of menu
-    sf::RectangleShape menubutton_start;
-    sf::Text menubutton_start_text;
-    sf::RectangleShape menubutton_exit;
-    sf::Text menubutton_exit_text;
+    //sf::RectangleShape menubutton_start;
+    //sf::Text menubutton_start_text;
+    Graphic_button* menubutton_start;
 
-    sf::RectangleShape settingbutton_next;
-    sf::Text settingbutton_next_text;
+    //sf::RectangleShape menubutton_exit;
+    //sf::Text menubutton_exit_text;
+    Graphic_button* menubutton_exit;
 
-    sf::RectangleShape settingbutton_back;
-    sf::Text settingbutton_back_text;
+    //sf::RectangleShape settingbutton_next;
+    //sf::Text settingbutton_next_text;
+    Graphic_button* settingbutton_next;
+
+    //sf::RectangleShape settingbutton_back;
+    //sf::Text settingbutton_back_text;
+    Graphic_button* settingbutton_back;
 
     //debug text
     sf::Text debug_menustate;
@@ -42,6 +48,9 @@ public:
     //constructor
     Game_Menu();
     Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font);
+
+    //destructor
+    ~Game_Menu();
 
     //update the graphic
     void update();

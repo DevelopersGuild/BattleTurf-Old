@@ -26,7 +26,7 @@ private:
     int current_active_player;  //determine who moves.
     int turn_passed;            //how many turn has passed
 
-    Box box[12][12]; //the map
+    Box **box; //the map
 
     Box *currentbox;            //a pointer for marking the box that the cursor located.
     Box *lastbox;               //a pointer that remember the last 'currentbox'.

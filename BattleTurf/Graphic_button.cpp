@@ -1,5 +1,5 @@
 #include "Graphic_button.h"
-
+#include <iostream>
 Graphic_button::Graphic_button()
 {
 }
@@ -9,12 +9,16 @@ Graphic_button::Graphic_button(sf::Font *font){
 }
 
 
-Graphic_button::Graphic_button(float length, float height, int x, int y, sf::Font* fontPtr)
+Graphic_button::Graphic_button(float inlength, float inheight, int x, int y,const sf::Font* fontPtr)
 {
+    xPos = x;
+    yPos = y;
+    length = inlength;
+    height = inheight;
     this->setPosition(xPos, yPos);
     this->setFillColor(sf::Color(204, 255, 153));
     this->setSize(sf::Vector2f(length, height));
-   
+
     text.setCharacterSize(24);
     text.setColor(sf::Color::Black);
     text.setPosition(xPos+(static_cast<int>(length/15)), yPos+(static_cast<int>(height/5))); //This part has to be changed later, try different numbers, use ratio, don't use direct addition
