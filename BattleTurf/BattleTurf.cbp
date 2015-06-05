@@ -63,7 +63,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-DSFML_STATIC" />
-			<Add directory="../../../CodeBlocksProject/SFML-2.2/include" />
+			<Add directory="SFML-2.2/include" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics-s-d" />
@@ -78,7 +78,7 @@
 			<Add library="jpeg" />
 			<Add library="sndfile" />
 			<Add library="openal32" />
-			<Add directory="../../../CodeBlocksProject/SFML-2.2/lib" />
+			<Add directory="SFML-2.2/lib" />
 		</Linker>
 		<Unit filename="BattleTurf.cpp" />
 		<Unit filename="Game_State.cpp" />

@@ -122,8 +122,10 @@ bool Game::isMouseingame()
         && sf::Mouse::getPosition(window).x < gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE
         && sf::Mouse::getPosition(window).y < gamedata.NUM_BOX_HEIGHT * gamedata.BOX_SIZE)
     {
+        std::cout << "true" << std::endl;
          return true;
     }
+    std::cout << "false" << std::endl;
     return false;
 }
 
@@ -131,8 +133,8 @@ bool Game::isMouseinWindow()
 {
         if( sf::Mouse::getPosition(window).x > 0
         && sf::Mouse::getPosition(window).y > 0
-        && sf::Mouse::getPosition(window).x < gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE
-        && sf::Mouse::getPosition(window).y < gamedata.NUM_BOX_HEIGHT * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE)
+        && sf::Mouse::getPosition(window).x < window.getSize().x
+        && sf::Mouse::getPosition(window).y < window.getSize().y)
         {
             return true;
         }
