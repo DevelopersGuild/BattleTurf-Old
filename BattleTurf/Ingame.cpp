@@ -31,6 +31,10 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
         player_order[i] = player + i;
     }
 
+    background.setSize(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + ptrgameSetting->INTERFACE_SIZE,
+                                         ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE));
+    background.setFillColor(sf::Color::White);
+
     Graphing_player_score = new sf::Text[4];
 
     GraphingRect1.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
@@ -56,8 +60,8 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     }
 
     //load box texture
-    box_texture.loadFromFile("Texture/box_texture.png");
-    box_texture_wall.loadFromFile("Texture/box_wall.png");
+    box_texture.loadFromFile("Texture/slice1.png");
+    box_texture_wall.loadFromFile("Texture/slice2.png");
     
     
     for (int i = 0; i<12; i++){
@@ -79,7 +83,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
                 box[i][j].setwall();
                 box[i][j].setTexture(box_texture_wall);
             }
-
+            
             box[i][j].Graphing_score.setFont(*ptrfont);
             box[i][j].Graphing_score.setColor(sf::Color::Black);
             box[i][j].Graphing_score.setCharacterSize(30);
@@ -99,10 +103,12 @@ Ingame::~Ingame()
     delete [] player;
     delete [] Graphing_player_score;
     delete [] player_order;
+    
 }
 void Ingame::update()
 {
     ptrwindow->clear();
+    ptrwindow->draw(background);
 
     //redraw the map, will be changed when we do the graphics.
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)

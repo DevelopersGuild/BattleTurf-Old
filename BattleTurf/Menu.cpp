@@ -37,6 +37,14 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
                                      "Texture/button_exit_2_1.png", "Texture/button_exit_focus_2_1.png");
+    
+    nextButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    11*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_next_4_1.png", "Texture/button_next_focus_4_1.png");
+    
+    backButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    3*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
 
 
     //initialize the next button in setting screen
@@ -90,6 +98,8 @@ void Game_Menu::update()
         ptrwindow->draw(settingbutton_next_text);
         ptrwindow->draw(settingbutton_back);
         ptrwindow->draw(settingbutton_back_text);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
     else if(menu_state == setting2)     //setting 2
     {

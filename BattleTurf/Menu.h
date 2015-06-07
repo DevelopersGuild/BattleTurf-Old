@@ -17,6 +17,8 @@ private:
 
     Graphic_button* startButton;
     Graphic_button* exitButton;
+    Graphic_button* nextButton;
+    Graphic_button* backButton;
     
     
     //the (testing) image of menu

@@ -18,8 +18,6 @@ Box::Box() //This default constructor is needed to make array of box
     score = 0;
     rect.setPosition(0,0);
     rect.setFillColor(sf::Color::White);
-    rect.setOutlineColor(sf::Color::Black);
-    rect.setOutlineThickness(2);
 }
 
 Box::Box(int size){
@@ -28,8 +26,6 @@ Box::Box(int size){
     rect.setSize(sf::Vector2f(size, size));
     rect.setPosition(0,0);
     rect.setFillColor(sf::Color::White);
-    rect.setOutlineColor(sf::Color::Black);
-    rect.setOutlineThickness(2);
 }
 
 void Box::setSize(int size){
