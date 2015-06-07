@@ -2,6 +2,7 @@
 #define PLAYER_H_INCLUDED
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 
 class Player
 {
@@ -10,6 +11,7 @@ private:
     std::vector<int> scorebox_order;
     int score;
     sf::Color Player_color;
+    
 public:
     Player();
 

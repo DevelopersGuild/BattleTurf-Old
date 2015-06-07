@@ -20,6 +20,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
     //temporary
     player = new Player[ptrgameSetting->NUM_PLAYER];
+    
     player[0].setcolor(sf::Color::Blue);
     player[1].setcolor(sf::Color::Red);
     player[2].setcolor(sf::Color::Green);
@@ -31,20 +32,22 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
         player_order[i] = player + i;
     }
 
+    
+    //Set the background to white
     background.setSize(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + ptrgameSetting->INTERFACE_SIZE,
                                          ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE));
     background.setFillColor(sf::Color::White);
 
     Graphing_player_score = new sf::Text[4];
 
-    GraphingRect1.setFillColor(sf::Color::Blue);         //becuase the color of the first player is blue
+    
+    //Configure the score box
+    GraphingRect1.setFillColor(sf::Color::Blue);        //becuase the color of the first player is blue
+    
     GraphingRect1.setSize(sf::Vector2f(ptrgameSetting->INTERFACE_SIZE, ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE / 2));      //the size
     GraphingRect1.setPosition(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + 5, 0));                //the position
-    GraphingRect1.setOutlineThickness(5);                //Outline, the "border" of the rectangle
-    GraphingRect1.setOutlineColor(sf::Color::Black);     //the color of the outline is black
 
     Graphing_scorebox.setFont(*ptrfont);
-    Graphing_scorebox.setColor(sf::Color::Black);
     Graphing_scorebox.setCharacterSize(60);
     Graphing_scorebox.setStyle(sf::Text::Regular);
     Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->INTERFACE_SIZE / 2), ptrgameSetting->INTERFACE_SIZE / 3);
@@ -60,8 +63,8 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     }
 
     //load box texture
-    box_texture.loadFromFile("Texture/slice1.png");
-    box_texture_wall.loadFromFile("Texture/slice2.png");
+    box_texture.loadFromFile("Texture/box_empty_1_1.png");
+    box_texture_wall.loadFromFile("Texture/box_wall_1_1.png");
     
     
     for (int i = 0; i<12; i++){
@@ -105,6 +108,7 @@ Ingame::~Ingame()
     delete [] player_order;
     
 }
+
 void Ingame::update()
 {
     ptrwindow->clear();
@@ -123,8 +127,11 @@ void Ingame::update()
     }
     //draw the background behind the text that shows the current player's color and his scorebox
     ptrwindow->draw(GraphingRect1);
+    
     //change the background color of the background
     GraphingRect1.setFillColor(player_order[current_active_player]->getcolor());
+    GraphingRect1.setTexture(&scoreBoxTexture);
+    
     //show the current scorebox
     Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed), Graphing_scorebox);
     //draw the scorebox

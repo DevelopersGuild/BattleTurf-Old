@@ -114,7 +114,6 @@ Can only be called by check() function.
 void Box::capture_Indirectly_by(Box *box)
 {
     owner = box->getowner();
-
     rect.setFillColor(owner->getcolor());
 }
 /*********************************************

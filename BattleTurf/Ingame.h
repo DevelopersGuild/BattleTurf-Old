@@ -40,10 +40,13 @@ private:
     sf::RectangleShape GraphingRect1;                    //the background of the current scorebox
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text *Graphing_player_score;
-
+    sf::Texture scoreBoxTexture;
+    
     //box texture
     sf::Texture box_texture;
     sf::Texture box_texture_wall;
+    
+    //sf::Texture
 
     /******************
     Functions
