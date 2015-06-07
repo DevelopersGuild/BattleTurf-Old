@@ -25,6 +25,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     //temporary
     player = new Player[ptrgameSetting->NUM_PLAYER];
     
+    //load texture both interface and box for each player
     player[0].setTexture("Texture/box_blue_1_1.png");
     player[1].setTexture("Texture/box_red_1_1.png");
     player[2].setTexture("Texture/box_green_1_1.png");
@@ -37,6 +38,8 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     
     focusTexture.loadFromFile("Texture/box_focus_1_1.png");
     
+    
+    //This is not used actually
     player[0].setcolor(sf::Color::Blue);
     player[1].setcolor(sf::Color::Red);
     player[2].setcolor(sf::Color::Green);
@@ -74,14 +77,22 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->BOX_SIZE * 2.2),
                                   ptrgameSetting->BOX_SIZE * 3.3);
 
+    
+    //set color of the total score
+    Graphing_player_score[0].setColor(sf::Color(6, 0, 213));
+    Graphing_player_score[1].setColor(sf::Color(156, 1, 11));
+    Graphing_player_score[2].setColor(sf::Color(76, 134, 35));
+    Graphing_player_score[3].setColor(sf::Color(232, 153, 36));
+    
     for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
+        
     {
         Graphing_player_score[i].setFont(*ptrfont);
-        Graphing_player_score[i].setColor(sf::Color::Black);
-        Graphing_player_score[i].setCharacterSize(ptrgameSetting->BOX_SIZE);
+        Graphing_player_score[i].setCharacterSize(ptrgameSetting->BOX_SIZE/1.5);
         Graphing_player_score[i].setStyle(sf::Text::Regular);
         Graphing_player_score[i].setString("0");
-        Graphing_player_score[i].setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE, ptrgameSetting->INTERFACE_SIZE + i * 20);
+        Graphing_player_score[i].setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE +
+                                             ptrgameSetting->BOX_SIZE, ptrgameSetting->INTERFACE_SIZE + i * ptrgameSetting->BOX_SIZE/1.4);
     }
 
     
@@ -156,11 +167,11 @@ void Ingame::update()
     //draw the background behind the text that shows the current player's color and his scorebox
     ptrwindow->draw(GraphingRect1);
     
-    //change the background color of the background
+    //change the background color of the interface
     scoreBoxTexture = player_order[current_active_player]->getInterfaceTexture();
     GraphingRect1.setTexture(&scoreBoxTexture);
     
-    //show the current scorebox, if statements to adjust the position of the text
+    //show the current scorebox, "if statements" used to adjust the position of the text
     Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed), Graphing_scorebox);
     if (player_order[current_active_player]->getscore_order(turn_passed) < 10){
         Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->BOX_SIZE * 2.7),
