@@ -36,13 +36,19 @@ private:
     ******************/
     //sf::Font *ptrfont;                                  //the font of the score
     //sf::Text Graphing_score[11][11];  //score[][]is the score for graphing only, it doesn't change the game.
+    sf::RectangleShape background;
     sf::RectangleShape GraphingRect1;                    //the background of the current scorebox
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text *Graphing_player_score;
-
+    sf::Texture scoreBoxTexture;
+    
     //box texture
     sf::Texture box_texture;
     sf::Texture box_texture_wall;
+    
+    sf::Texture focusTexture;
+    
+    sf::Texture texture;
 
     /******************
     Functions

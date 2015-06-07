@@ -17,6 +17,7 @@ private:
     sf::RectangleShape rect;
     void capture_Indirectly_by(Box *box);
     void fortify();
+    sf::Texture texture;
 
 public:
     Box();

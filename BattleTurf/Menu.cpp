@@ -37,6 +37,14 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
                                      "Texture/button_exit_2_1.png", "Texture/button_exit_focus_2_1.png");
+    
+    nextButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    11*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_next_4_1.png", "Texture/button_next_focus_4_1.png");
+    
+    backButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    3*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
 
 
     //initialize the next button in setting screen
@@ -86,24 +94,18 @@ void Game_Menu::update()
     }
     else if(menu_state == setting1)     //setting 1
     {
-        ptrwindow->draw(settingbutton_next);
-        ptrwindow->draw(settingbutton_next_text);
-        ptrwindow->draw(settingbutton_back);
-        ptrwindow->draw(settingbutton_back_text);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
     else if(menu_state == setting2)     //setting 2
     {
-        ptrwindow->draw(settingbutton_next);
-        ptrwindow->draw(settingbutton_next_text);
-        ptrwindow->draw(settingbutton_back);
-        ptrwindow->draw(settingbutton_back_text);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
     else if(menu_state == setting3)     //setting 3
     {
-        ptrwindow->draw(settingbutton_next);
-        ptrwindow->draw(settingbutton_next_text);
-        ptrwindow->draw(settingbutton_back);
-        ptrwindow->draw(settingbutton_back_text);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
 
     //debug : the game state
@@ -125,29 +127,27 @@ when mouse click something, do something...
 void Game_Menu::Mouseclicked()
 {
     //if the mouse click the "start" button in mainmenu
-    if(startButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == mainmenu && startButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = setting1;
     }
 
      //if the mouse click the "exit" button in mainmenu
-    if(exitButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == mainmenu && exitButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = terminated;
     }
 
      //if the mouse click the "next" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && ptrMousePosition->x > 700 && ptrMousePosition->x < 850
-        && ptrMousePosition->y > 600 && ptrMousePosition->y < 650)
+        && nextButton->isCursor_On_button(ptrMousePosition))
     {
         setting_nextButton();
     }
 
      //if the mouse click the "back" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && ptrMousePosition->x > 200 && ptrMousePosition->x < 350
-        && ptrMousePosition->y > 600 && ptrMousePosition->y < 650)
+        && backButton->isCursor_On_button(ptrMousePosition))
     {
         setting_backButton();
     }
@@ -161,39 +161,28 @@ void Game_Menu::Mousemoved()
 {
     
    // if cursor is in menu_start button
-    if(startButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == mainmenu && startButton->isCursor_On_button(ptrMousePosition))
     {
         //
     }
 
     //if cursor is in exit button
-    if(exitButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == mainmenu && exitButton->isCursor_On_button(ptrMousePosition))
     {
         //
     }
+   
 
     //if cursor is in next button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && ptrMousePosition->x > 700 && ptrMousePosition->x < 850
-        && ptrMousePosition->y > 600 && ptrMousePosition->y < 650)
+        && nextButton->isCursor_On_button(ptrMousePosition))
     {
-        settingbutton_next.setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        settingbutton_next.setFillColor(sf::Color(204,255,153));
     }
 
     //if cursor is in back button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && ptrMousePosition->x > 200 && ptrMousePosition->x < 350
-        && ptrMousePosition->y > 600 && ptrMousePosition->y < 650)
+        && backButton->isCursor_On_button(ptrMousePosition))
     {
-        settingbutton_back.setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        settingbutton_back.setFillColor(sf::Color(204,255,153));
     }
 
 }
