@@ -105,7 +105,6 @@ void Game::getMousePosition()
     {
         mouseposition = sf::Mouse::getPosition(window);
     }
-
 }
 
 /*********************************************

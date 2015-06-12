@@ -6,6 +6,7 @@ Ingame::Ingame()
     turn_passed = 0;
     lastbox = NULL;
     currentbox = NULL;
+    srand(time(NULL));
 }
 
 Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font)
@@ -19,6 +20,7 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     ptrMousePosition = mouseposition;
     ptrgameSetting = gameSetting;
     ptrfont = font;
+    srand(time(NULL));
 
     //load box texture
     box_texture.loadFromFile("Texture/box_empty_1_1.png");
