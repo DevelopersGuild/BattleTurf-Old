@@ -10,14 +10,15 @@ class Box
 {
     //friend class Box;
 private:
-       //0 = non occupied, 1 = occupied, 2 = wall
+
+    //0 = non occupied, 1 = occupied, 2 = wall
     Boxstate boxstate;
     Player *owner;  //a pointer pointing to the owner
     int score;  //score range : 3~30
     sf::RectangleShape rect;
-
     void capture_Indirectly_by(Box *box);
     void fortify();
+    sf::Texture texture;
 
 public:
     Box();
@@ -28,6 +29,7 @@ public:
 
     void setscore(int num){score = num;}
     void setrect(int size, int position_x, int position_y,int thickness);
+    void setSize (int size);
 
     Player* getowner(){return owner;}
     int getscore(){return score;}

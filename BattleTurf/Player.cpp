@@ -22,6 +22,8 @@ int Player::getscore()
 {
     return score;
 }
+
+
 /*********************************************
 setcolor
 Set that player's color
@@ -36,8 +38,9 @@ Return that player's color.
 *********************************************/
 sf::Color Player::getcolor()
 {
-    return Player_color;
+return Player_color;
 }
+
 /*********************************************
 resetscore
 set that player's score to 0.
@@ -65,3 +68,35 @@ void Player::setscorebox_order(int value[], int num_score_each_player)
         scorebox_order.push_back(value[i]);
     }
 }
+/*********************************************
+ setTexture
+ *********************************************/
+void Player::setTexture(std::string textureName)
+{
+    texture.loadFromFile(textureName);
+}
+/*********************************************
+ getTexture
+ *********************************************/
+sf::Texture Player::getTexture()
+{
+    return texture;
+}
+
+/*********************************************
+ setInterfaceTexture
+ *********************************************/
+void Player::setInterfaceTexture(std::string textureName)
+{
+    interfaceTexture.loadFromFile(textureName);
+}
+/*********************************************
+ getInterfaceTexture
+ *********************************************/
+sf::Texture Player::getInterfaceTexture()
+{
+    return interfaceTexture;
+}
+
+
+

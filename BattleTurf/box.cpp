@@ -9,19 +9,30 @@ This is held in variable "boxstate"
 The box remember its owner by a pointer "owner" which is pointing to a player class.
 ***********************************************/
 #include "box.h"
+#include <iostream>
 /*********************************************
 Constructor
 **********************************************/
-Box::Box()
+Box::Box() //This default constructor is needed to make array of box
 {
     boxstate = non_occupied;
     score = 0;
-    rect.setSize(sf::Vector2f(50,50));
     rect.setPosition(0,0);
     rect.setFillColor(sf::Color::White);
-    rect.setOutlineColor(sf::Color::Black);
-    rect.setOutlineThickness(2);
 }
+
+Box::Box(int size){
+    boxstate = non_occupied;
+    score = 0;
+    rect.setSize(sf::Vector2f(size, size));
+    rect.setPosition(0,0);
+    rect.setFillColor(sf::Color::White);
+}
+
+void Box::setSize(int size){
+    rect.setSize(sf::Vector2f(size, size));
+}
+
 /*********************************************
 setrect function
 change the settings of the rectangle.
@@ -88,10 +99,11 @@ bool Box::capture_directly_by(Player &player, int scorenum)
 {
     if(boxstate == 0)
     {
+        texture = player.getTexture();
         boxstate = occupied;
         score = scorenum;
         owner = &player;
-        rect.setFillColor(player.getcolor());
+        rect.setTexture(&texture);
         return true;
     }
     return false;
@@ -104,8 +116,8 @@ Can only be called by check() function.
 void Box::capture_Indirectly_by(Box *box)
 {
     owner = box->getowner();
-
-    rect.setFillColor(owner->getcolor());
+    texture = owner->getTexture();
+    rect.setTexture(&texture);
 }
 /*********************************************
 fortify function

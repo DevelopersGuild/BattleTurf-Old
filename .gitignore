@@ -254,6 +254,12 @@ pip-log.txt
 #############
 ## Xcode
 #############
+<<<<<<< HEAD
 DerivedData
 Build
 BattleTurf.xcodeproj
+=======
+BattleTurf.xcodeproj
+DerivedData
+Build
+>>>>>>> updategraphics

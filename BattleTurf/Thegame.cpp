@@ -5,6 +5,7 @@ Constructor
 Game::Game()
 {
     game_state = Start;
+    videoMode = sf::VideoMode::getFullscreenModes()[0];
 
     //temporary set the game data, will be changed later
     gamedata.NUM_WALL = 8;         //number of wall
@@ -12,7 +13,7 @@ Game::Game()
     gamedata.NUM_BOX_WIDTH = 12;    //the width of the map
     gamedata.NUM_BOX_HEIGHT = 12;   //the height of the map
     gamedata.NUM_SCORE_EACH_PLAYER = ((gamedata.NUM_BOX_WIDTH * gamedata.NUM_BOX_HEIGHT) - gamedata.NUM_WALL - (gamedata.NUM_BOX_HEIGHT - 1) * 4) / gamedata.NUM_PLAYER;       //the number of score box that each player can put in the gamedata
-    gamedata.BOX_SIZE = 55;        //the size of the box
+    gamedata.BOX_SIZE = static_cast<int> (videoMode.height/15);        //the size of the box
     gamedata.INTERFACE_SIZE = gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE / 2; //the width of the interface
 
     font = new sf::Font;
@@ -26,9 +27,8 @@ Create window, update Graphics and loop the events.
 *********************************************/
 void Game::start()
 {
-
     window.create(sf::VideoMode(gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE, gamedata.NUM_BOX_HEIGHT * gamedata.BOX_SIZE),
-                   "BattleTurf",sf::Style::Close);
+                  "BattleTurf",sf::Style::Close);
     //start with intro
     //menu.update();
     while(window.isOpen())
@@ -79,10 +79,7 @@ void Game::start()
         else if(game_state == Maingame)
         {
             ingame->update();
-            if(isMouseingame())
-            {
-                ingame->Show_Cursor_Box();
-            }
+
             if(window.waitEvent(event))
                 ingame->HandleEvent();
         }

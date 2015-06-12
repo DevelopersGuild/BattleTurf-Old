@@ -11,10 +11,11 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     menu_state = mainmenu;
 
     //initialize the gametitle picture
-    gameTitleRect.setPosition(150,25);
-    gameTitleRect.setSize(sf::Vector2f(250,200));
-    gameTitle.loadFromFile("Texture/test.png");
+
+    gameTitleRect.setSize(sf::Vector2f(6*ptrsetting->BOX_SIZE, 4*ptrsetting->BOX_SIZE));
+    gameTitle.loadFromFile("Texture/image_text_3_2.png");
     gameTitleRect.setTexture(&gameTitle);
+    gameTitleRect.setPosition(6*(ptrsetting->BOX_SIZE), 1*(ptrsetting->BOX_SIZE));
 
     //get the pointers
     ptrwindow = window;
@@ -23,35 +24,27 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     ptrfont = font;
 
     //initialize the background
-    menu_background.setFillColor(sf::Color(224,224,224,140));
+    menu_background.setFillColor(sf::Color(255,255,255,255));
     menu_background.setSize(sf::Vector2f(ptrsetting->NUM_BOX_WIDTH * ptrsetting->BOX_SIZE + ptrsetting->INTERFACE_SIZE,
                                           ptrsetting->NUM_BOX_HEIGHT * ptrsetting->BOX_SIZE));
 
     //initialize the start button in mainmenu
-    menubutton_start = new Graphic_button(150,50,375,250,ptrfont);
-    menubutton_start->setFillColor(sf::Color(204,255,153));
-    menubutton_start->setString("Start");
+    startButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
+                                     11*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
+                                     "Texture/button_start_2_1.png", "Texture/button_start_focus_2_1.png");
 
     //initialize the exit button in mainmenu
-    menubutton_exit = new Graphic_button(150,50,375,425,ptrfont);
-    menubutton_exit->setFillColor(sf::Color(204,255,153));
-    menubutton_exit->setString("Exit");
+    exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
+                                    3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
+                                     "Texture/button_exit_2_1.png", "Texture/button_exit_focus_2_1.png");
 
-    //the picture of game title
-    menu_Title.setFont(*font);
-    menu_Title.setString("Battle Turf");
-    menu_Title.setCharacterSize(90);
-    menu_Title.setPosition(420,50);
+    nextButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    11*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_next_4_1.png", "Texture/button_next_focus_4_1.png");
 
-    //initialize the next button in setting screen
-    settingbutton_next = new Graphic_button(150,50,700,600,ptrfont);
-    settingbutton_next->setFillColor(sf::Color(204,255,153));
-    settingbutton_next->setString("Next");
-
-    //initialize the back button in setting screen
-    settingbutton_back = new Graphic_button(150,50,200,600,ptrfont);
-    settingbutton_back->setFillColor(sf::Color(204,255,153));
-    settingbutton_back->setString("Back");
+    backButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    3*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
 
     //debug: show the current game state
     debug_menustate.setFont(*font);
@@ -67,10 +60,10 @@ remove all elements in the menu
 *************/
 Game_Menu::~Game_Menu()
 {
-    delete menubutton_start;
-    delete menubutton_exit;
-    delete settingbutton_next;
-    delete settingbutton_back;
+    delete startButton;
+    delete exitButton;
+    delete nextButton;
+    delete backButton;
 }
 /*************
 update function
@@ -81,29 +74,28 @@ void Game_Menu::update()
     //clear the window first
     ptrwindow->clear();
     ptrwindow->draw(menu_background);   //the background must be drawn
+    ptrwindow->draw(gameTitleRect);
 
     //in case the menu state is mainmenu
     if(menu_state == mainmenu)
     {
-        ptrwindow->draw(menu_Title);
-        menubutton_start->addInto(ptrwindow);
-        menubutton_exit->addInto(ptrwindow);
-        ptrwindow->draw(gameTitleRect);
+        startButton->addInto(ptrwindow);
+        exitButton->addInto(ptrwindow);
     }
     else if(menu_state == setting1)     //setting 1
     {
-        settingbutton_next->addInto(ptrwindow);
-        settingbutton_back->addInto(ptrwindow);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
     else if(menu_state == setting2)     //setting 2
     {
-        settingbutton_next->addInto(ptrwindow);
-        settingbutton_back->addInto(ptrwindow);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
     else if(menu_state == setting3)     //setting 3
     {
-        settingbutton_next->addInto(ptrwindow);
-        settingbutton_back->addInto(ptrwindow);
+        nextButton->addInto(ptrwindow);
+        backButton->addInto(ptrwindow);
     }
 
     //debug : the game state
@@ -125,27 +117,27 @@ when mouse click something, do something...
 void Game_Menu::Mouseclicked()
 {
     //if the mouse click the "start" button in mainmenu
-    if(menu_state == mainmenu && menubutton_start->isCursor_On_button(*ptrMousePosition))
+    if(menu_state == mainmenu && startButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = setting1;
     }
 
      //if the mouse click the "exit" button in mainmenu
-    if(menu_state == mainmenu && menubutton_exit->isCursor_On_button(*ptrMousePosition))
+    if(menu_state == mainmenu && exitButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = terminated;
     }
 
      //if the mouse click the "next" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && settingbutton_next->isCursor_On_button(*ptrMousePosition))
+        && nextButton->isCursor_On_button(ptrMousePosition))
     {
         setting_nextButton();
     }
 
      //if the mouse click the "back" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && settingbutton_back->isCursor_On_button(*ptrMousePosition))
+        && backButton->isCursor_On_button(ptrMousePosition))
     {
         setting_backButton();
     }
@@ -157,46 +149,31 @@ when mouse moved, do something...
 ******************/
 void Game_Menu::Mousemoved()
 {
-    //if cursor is in menu_start button
-    if(menu_state == mainmenu && menubutton_start->isCursor_On_button(*ptrMousePosition))
+   // if cursor is in menu_start button
+    if(menu_state == mainmenu && startButton->isCursor_On_button(ptrMousePosition))
     {
-        menubutton_start->setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        menubutton_start->setFillColor(sf::Color(204,255,153));
+        //
     }
 
     //if cursor is in exit button
-    if(menu_state == mainmenu && menubutton_exit->isCursor_On_button(*ptrMousePosition))
+    if(menu_state == mainmenu && exitButton->isCursor_On_button(ptrMousePosition))
     {
-        menubutton_exit->setFillColor(sf::Color(128,255,0));
+        //
     }
-    else
-    {
-        menubutton_exit->setFillColor(sf::Color(204,255,153));
-    }
+
 
     //if cursor is in next button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && settingbutton_next->isCursor_On_button(*ptrMousePosition))
+        && nextButton->isCursor_On_button(ptrMousePosition))
     {
-        settingbutton_next->setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        settingbutton_next->setFillColor(sf::Color(204,255,153));
+
     }
 
     //if cursor is in back button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
-        && settingbutton_back->isCursor_On_button(*ptrMousePosition))
+        && backButton->isCursor_On_button(ptrMousePosition))
     {
-        settingbutton_back->setFillColor(sf::Color(128,255,0));
-    }
-    else
-    {
-        settingbutton_back->setFillColor(sf::Color(204,255,153));
+
     }
 
 }

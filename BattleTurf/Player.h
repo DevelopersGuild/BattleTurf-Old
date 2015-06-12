@@ -2,6 +2,7 @@
 #define PLAYER_H_INCLUDED
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 
 class Player
 {
@@ -10,10 +11,17 @@ private:
     std::vector<int> scorebox_order;
     int score;
     sf::Color Player_color;
+    sf::Texture texture;
+    sf::Texture interfaceTexture;
+    
 public:
     Player();
 
     void setcolor(sf::Color color);
+    void setTexture(std::string);
+    void setInterfaceTexture(std::string);
+    sf::Texture getInterfaceTexture();
+    sf::Texture getTexture();
     void resetscore();
     sf::Color getcolor();
     int getscore_order(int num);

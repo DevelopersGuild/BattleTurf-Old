@@ -11,30 +11,23 @@ enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_inga
 class Game_Menu : public Game_State
 {
 private:
-    sf::Text menu_Title;
 
     //the background of menu
     sf::RectangleShape menu_background;
 
+    Graphic_button* startButton;
+    Graphic_button* exitButton;
+    Graphic_button* nextButton;
+    Graphic_button* backButton;
+
+
     //the (testing) image of menu
     sf::Texture gameTitle;
     sf::RectangleShape gameTitleRect;
-    //the button(s) of menu
-    //sf::RectangleShape menubutton_start;
-    //sf::Text menubutton_start_text;
-    Graphic_button* menubutton_start;
 
     //sf::RectangleShape menubutton_exit;
     //sf::Text menubutton_exit_text;
     Graphic_button* menubutton_exit;
-
-    //sf::RectangleShape settingbutton_next;
-    //sf::Text settingbutton_next_text;
-    Graphic_button* settingbutton_next;
-
-    //sf::RectangleShape settingbutton_back;
-    //sf::Text settingbutton_back_text;
-    Graphic_button* settingbutton_back;
 
     //debug text
     sf::Text debug_menustate;
@@ -43,6 +36,7 @@ private:
 
     void setting_nextButton();
     void setting_backButton();
+
 
 public:
     //constructor
