@@ -11,7 +11,7 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     menu_state = mainmenu;
 
     //initialize the gametitle picture
-    
+
     gameTitleRect.setSize(sf::Vector2f(6*ptrsetting->BOX_SIZE, 4*ptrsetting->BOX_SIZE));
     gameTitle.loadFromFile("Texture/image_text_3_2.png");
     gameTitleRect.setTexture(&gameTitle);
@@ -37,35 +37,14 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
                                      "Texture/button_exit_2_1.png", "Texture/button_exit_focus_2_1.png");
-    
+
     nextButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     11*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
                                     "Texture/button_next_4_1.png", "Texture/button_next_focus_4_1.png");
-    
+
     backButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
                                     "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
-
-
-    //initialize the next button in setting screen
-    settingbutton_next.setFillColor(sf::Color(204,255,153));
-    settingbutton_next.setPosition(700,600);
-    settingbutton_next.setSize(sf::Vector2f(150,50));
-    settingbutton_next_text.setFont(*font);
-    settingbutton_next_text.setString("Next");
-    settingbutton_next_text.setColor(sf::Color::Black);
-    settingbutton_next_text.setCharacterSize(24);
-    settingbutton_next_text.setPosition(740,610);
-
-    //initialize the back button in setting screen
-    settingbutton_back.setFillColor(sf::Color(204,255,153));
-    settingbutton_back.setPosition(200,600);
-    settingbutton_back.setSize(sf::Vector2f(150,50));
-    settingbutton_back_text.setFont(*font);
-    settingbutton_back_text.setString("Back");
-    settingbutton_back_text.setColor(sf::Color::Black);
-    settingbutton_back_text.setCharacterSize(24);
-    settingbutton_back_text.setPosition(240,610);
 
     //debug: show the current game state
     debug_menustate.setFont(*font);
@@ -74,6 +53,17 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     debug_menustate.setCharacterSize(14);
     debug_menustate.setPosition(900,610);
 
+}
+/*************
+Destructor
+remove all elements in the menu
+*************/
+Game_Menu::~Game_Menu()
+{
+    delete startButton;
+    delete exitButton;
+    delete nextButton;
+    delete backButton;
 }
 /*************
 update function
@@ -159,7 +149,7 @@ when mouse moved, do something...
 ******************/
 void Game_Menu::Mousemoved()
 {
-    
+
    // if cursor is in menu_start button
     if(menu_state == mainmenu && startButton->isCursor_On_button(ptrMousePosition))
     {
@@ -171,18 +161,20 @@ void Game_Menu::Mousemoved()
     {
         //
     }
-   
+
 
     //if cursor is in next button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
         && nextButton->isCursor_On_button(ptrMousePosition))
     {
+
     }
 
     //if cursor is in back button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
         && backButton->isCursor_On_button(ptrMousePosition))
     {
+
     }
 
 }

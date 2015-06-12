@@ -5,6 +5,7 @@ Ingame::Ingame()
     current_active_player = 0;
     turn_passed = 0;
     lastbox = NULL;
+    currentbox = NULL;
 }
 
 Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font)
@@ -12,33 +13,34 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     current_active_player = 0;
     turn_passed = 0;
     lastbox = NULL;
+    currentbox = NULL;
     ptrwindow = window;
     ptrevent = event;
     ptrMousePosition = mouseposition;
     ptrgameSetting = gameSetting;
     ptrfont = font;
-    
+
     //load box texture
     box_texture.loadFromFile("Texture/box_empty_1_1.png");
     box_texture_wall.loadFromFile("Texture/box_wall_1_1.png");
 
     //temporary
     player = new Player[ptrgameSetting->NUM_PLAYER];
-    
+
     //load texture both interface and box for each player
     player[0].setTexture("Texture/box_blue_1_1.png");
     player[1].setTexture("Texture/box_red_1_1.png");
     player[2].setTexture("Texture/box_green_1_1.png");
     player[3].setTexture("Texture/box_yellow_1_1.png");
-    
+
     player[0].setInterfaceTexture("Texture/image_scorebox_blue_19_23.png");
     player[1].setInterfaceTexture("Texture/image_scorebox_red_19_23.png");
     player[2].setInterfaceTexture("Texture/image_scorebox_green_19_23.png");
     player[3].setInterfaceTexture("Texture/image_scorebox_yellow_19_23.png");
-    
+
     focusTexture.loadFromFile("Texture/box_focus_1_1.png");
-    
-    
+
+
     //This is not used actually
     player[0].setcolor(sf::Color::Blue);
     player[1].setcolor(sf::Color::Red);
@@ -51,19 +53,26 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
         player_order[i] = player + i;
     }
 
-    
     //Set the background to white
     background.setSize(sf::Vector2f(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + ptrgameSetting->INTERFACE_SIZE,
                                          ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE));
     background.setFillColor(sf::Color::White);
 
+
+    //declare the box here
+    box = new Box*[ptrgameSetting->NUM_BOX_WIDTH];
+    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
+    {
+        box[i] = new Box[ptrgameSetting->NUM_BOX_HEIGHT];
+    }
+
     Graphing_player_score = new sf::Text[4];
 
-    
+
     //Configure the score box
     scoreBoxTexture = player[0].getInterfaceTexture();
     GraphingRect1.setTexture(&scoreBoxTexture);        //becuase the color of the first player is blue
-    
+
     GraphingRect1.setSize(sf::Vector2f(ptrgameSetting->BOX_SIZE*4, ptrgameSetting->BOX_SIZE * 4.84));      //the size
     GraphingRect1.setPosition(sf::Vector2f(
                                            ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE +
@@ -77,15 +86,15 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     Graphing_scorebox.setPosition(ptrgameSetting->NUM_BOX_WIDTH * ptrgameSetting->BOX_SIZE + (ptrgameSetting->BOX_SIZE * 2.2),
                                   ptrgameSetting->BOX_SIZE * 3.3);
 
-    
+
     //set color of the total score
     Graphing_player_score[0].setColor(sf::Color(6, 0, 213));
     Graphing_player_score[1].setColor(sf::Color(156, 1, 11));
     Graphing_player_score[2].setColor(sf::Color(76, 134, 35));
     Graphing_player_score[3].setColor(sf::Color(232, 153, 36));
-    
+
     for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
-        
+
     {
         Graphing_player_score[i].setFont(*ptrfont);
         Graphing_player_score[i].setCharacterSize(ptrgameSetting->BOX_SIZE/1.5);
@@ -95,21 +104,13 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
                                              ptrgameSetting->BOX_SIZE, ptrgameSetting->INTERFACE_SIZE + i * ptrgameSetting->BOX_SIZE/1.4);
     }
 
-    
-    
-    
-    for (int i = 0; i<12; i++){
-        for (int j = 0; j<12; j++){
-            box[i][j].setSize(ptrgameSetting->BOX_SIZE);
-        }
-    }
-
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT; j++)
         {
             box[i][j].setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
             box[i][j].setPosition(ptrgameSetting->BOX_SIZE *i, ptrgameSetting->BOX_SIZE * j);
+            box[i][j].setSize(ptrgameSetting->BOX_SIZE);
             box[i][j].setTexture(box_texture);
             //setedge
             if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)
@@ -117,14 +118,12 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
                 box[i][j].setwall();
                 box[i][j].setTexture(box_texture_wall);
             }
-            
+
             box[i][j].Graphing_score.setFont(*ptrfont);
             box[i][j].Graphing_score.setColor(sf::Color::Black);
             box[i][j].Graphing_score.setCharacterSize(ptrgameSetting->BOX_SIZE/2.5);
             box[i][j].Graphing_score.setStyle(sf::Text::Regular);
             box[i][j].Graphing_score.setString("0");
-            
-            
             box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ (ptrgameSetting->BOX_SIZE/5.8), ptrgameSetting->BOX_SIZE * j + ptrgameSetting->BOX_SIZE/6.2);
         }
     }
@@ -136,10 +135,17 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
 Ingame::~Ingame()
 {
+
+    for(int i = 0; i <ptrgameSetting->NUM_BOX_WIDTH; i++)
+    {
+        delete [] box[i];
+    }
+
+    delete [] box;
     delete [] player;
     delete [] Graphing_player_score;
     delete [] player_order;
-    
+
 }
 
 void Ingame::update()
@@ -166,11 +172,11 @@ void Ingame::update()
     }
     //draw the background behind the text that shows the current player's color and his scorebox
     ptrwindow->draw(GraphingRect1);
-    
+
     //change the background color of the interface
     scoreBoxTexture = player_order[current_active_player]->getInterfaceTexture();
     GraphingRect1.setTexture(&scoreBoxTexture);
-    
+
     //show the current scorebox, "if statements" used to adjust the position of the text
     Graphic_int_ToString(player_order[current_active_player]->getscore_order(turn_passed), Graphing_scorebox);
     if (player_order[current_active_player]->getscore_order(turn_passed) < 10){
@@ -188,7 +194,7 @@ void Ingame::update()
         Graphic_int_ToString(player[i].getscore(),Graphing_player_score[i]);
         ptrwindow->draw(Graphing_player_score[i]);
     }
-    
+
     ptrwindow->display();
 }
 
@@ -213,7 +219,10 @@ void Ingame::HandleEvent()
 
 void Ingame::Event_MouseMoved()
 {
-    //Show_Cursor_Box();
+    if(isMouseinGame())
+    {
+        Show_Cursor_Box();
+    }
 }
 
 void Ingame::Show_Cursor_Box()
@@ -224,13 +233,15 @@ void Ingame::Show_Cursor_Box()
     if(currentbox != lastbox)
     {
         //focus box
-        if(currentbox->getstate() == 0)
+        if(currentbox->getstate() == non_occupied)
         {
             currentbox->setTexture(focusTexture);
         }
-                //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
-        if(lastbox !=NULL && lastbox->getstate() == 0)
+
+        //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
+        if(lastbox != NULL && lastbox->getstate() == non_occupied)
         {
+
             lastbox->setTexture(box_texture);
         }
         lastbox = currentbox;

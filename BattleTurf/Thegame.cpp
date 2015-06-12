@@ -6,7 +6,7 @@ Game::Game()
 {
     game_state = Start;
     videoMode = sf::VideoMode::getFullscreenModes()[0];
-    
+
     //temporary set the game data, will be changed later
     gamedata.NUM_WALL = 8;         //number of wall
     gamedata.NUM_PLAYER = 4;       //number of player, must be less or equals to than 4
@@ -79,10 +79,7 @@ void Game::start()
         else if(game_state == Maingame)
         {
             ingame->update();
-            if(isMouseingame())
-            {
-                ingame->Show_Cursor_Box();
-            }
+
             if(window.waitEvent(event))
                 ingame->HandleEvent();
         }
@@ -131,8 +128,8 @@ bool Game::isMouseinWindow()
 {
         if( sf::Mouse::getPosition(window).x > 0
         && sf::Mouse::getPosition(window).y > 0
-        && sf::Mouse::getPosition(window).x < gamedata.NUM_BOX_WIDTH * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE
-        && sf::Mouse::getPosition(window).y < gamedata.NUM_BOX_HEIGHT * gamedata.BOX_SIZE + gamedata.INTERFACE_SIZE)
+        && sf::Mouse::getPosition(window).x < window.getSize().x
+        && sf::Mouse::getPosition(window).y < window.getSize().y)
         {
             return true;
         }

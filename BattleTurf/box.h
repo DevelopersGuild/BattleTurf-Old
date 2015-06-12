@@ -10,7 +10,8 @@ class Box
 {
     //friend class Box;
 private:
-       //0 = non occupied, 1 = occupied, 2 = wall
+
+    //0 = non occupied, 1 = occupied, 2 = wall
     Boxstate boxstate;
     Player *owner;  //a pointer pointing to the owner
     int score;  //score range : 3~30

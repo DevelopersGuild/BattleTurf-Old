@@ -19,18 +19,15 @@ private:
     Graphic_button* exitButton;
     Graphic_button* nextButton;
     Graphic_button* backButton;
-    
-    
+
+
     //the (testing) image of menu
     sf::Texture gameTitle;
     sf::RectangleShape gameTitleRect;
-    
-    
+
+
     sf::RectangleShape settingbutton_next;
     sf::Text settingbutton_next_text;
-
-    sf::RectangleShape settingbutton_back;
-    sf::Text settingbutton_back_text;
 
     //debug text
     sf::Text debug_menustate;
@@ -39,13 +36,16 @@ private:
 
     void setting_nextButton();
     void setting_backButton();
-    
-    
+
+
 
 public:
     //constructor
     Game_Menu();
     Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font);
+
+    //destructor
+    ~Game_Menu();
 
     //update the graphic
     void update();

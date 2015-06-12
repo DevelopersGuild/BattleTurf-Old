@@ -9,6 +9,7 @@ This is held in variable "boxstate"
 The box remember its owner by a pointer "owner" which is pointing to a player class.
 ***********************************************/
 #include "box.h"
+#include <iostream>
 /*********************************************
 Constructor
 **********************************************/
