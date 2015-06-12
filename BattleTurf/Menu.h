@@ -6,7 +6,11 @@
 #include "Game_State.h"
 #include "Graphic_button.h"
 
-enum Menu_state{mainmenu = 1, setting1 = 2, setting2 = 3, setting3 = 4, end_ingame = 5, terminated = 6};
+enum Menu_state{mainmenu = 1,
+                setting1 = 2, setting2 = 3, setting3 = 4,
+                multiplayer1 = 5, multiplayer2 = 6,
+                end_ingame = 10, end_multiplayer_ingame = 11,
+                terminated = 12};
 
 class Game_Menu : public Game_State
 {
@@ -16,10 +20,14 @@ private:
     sf::RectangleShape menu_background;
 
     Graphic_button* startButton;
+    Graphic_button* multiPlayerButton;
     Graphic_button* exitButton;
+
     Graphic_button* nextButton;
     Graphic_button* backButton;
 
+    Graphic_button* hostButton;
+    Graphic_button* clientButton;
 
     //the (testing) image of menu
     sf::Texture gameTitle;

@@ -2,6 +2,7 @@
 #define THEGAME_H_INCLUDED
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include "Menu.h"
 #include "Ingame.h"
 #include "Intro.h"
@@ -39,6 +40,10 @@ private:
     bool isMouseingame();
     bool isMouseinWindow();
 
+    /*********************************
+    Networking
+    *********************************/
+    sf::UdpSocket* socket;
 
 public:
     Game();

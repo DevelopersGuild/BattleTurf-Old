@@ -22,9 +22,7 @@ Graphic_button::Graphic_button(float length, float height, int x, int y, std::st
     this->textureFocus.loadFromFile(imageFocus);
     this->setTexture(&texture);
 
-
 }
-
 
 Graphic_button::Graphic_button(float length, float height, int x, int y, sf::Font* fontPtr)
 {

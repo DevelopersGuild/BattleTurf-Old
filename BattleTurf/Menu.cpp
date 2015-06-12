@@ -33,6 +33,11 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
                                      11*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
                                      "Texture/button_start_2_1.png", "Texture/button_start_focus_2_1.png");
 
+    //initialize the multiplayer button in mainmenu
+    multiPlayerButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
+                                     11*ptrsetting->BOX_SIZE, 5*ptrsetting->BOX_SIZE,
+                                     "Texture/button_start_2_1.png", "Texture/button_start_focus_2_1.png");
+
     //initialize the exit button in mainmenu
     exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
@@ -44,6 +49,14 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
 
     backButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     3*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
+                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
+
+    hostButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    7*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
+                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
+
+    clientButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
+                                    7*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
                                     "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
 
     //debug: show the current game state
@@ -61,9 +74,12 @@ remove all elements in the menu
 Game_Menu::~Game_Menu()
 {
     delete startButton;
+    delete multiPlayerButton;
     delete exitButton;
     delete nextButton;
     delete backButton;
+    delete hostButton;
+    delete clientButton;
 }
 /*************
 update function
@@ -80,6 +96,7 @@ void Game_Menu::update()
     if(menu_state == mainmenu)
     {
         startButton->addInto(ptrwindow);
+        multiPlayerButton->addInto(ptrwindow);
         exitButton->addInto(ptrwindow);
     }
     else if(menu_state == setting1)     //setting 1
@@ -97,6 +114,11 @@ void Game_Menu::update()
         nextButton->addInto(ptrwindow);
         backButton->addInto(ptrwindow);
     }
+    else if(menu_state == multiplayer1)
+    {
+        hostButton->addInto(ptrwindow);
+        clientButton->addInto(ptrwindow);
+    }
 
     //debug : the game state
     switch(menu_state)
@@ -105,6 +127,7 @@ void Game_Menu::update()
         case setting1 : debug_menustate.setString("setting1"); break;
         case setting2 : debug_menustate.setString("setting2"); break;
         case setting3 : debug_menustate.setString("setting3"); break;
+        case multiplayer1 : debug_menustate.setString("multiplayer1"); break;
     }
     ptrwindow->draw(debug_menustate);
     ptrwindow->display();
@@ -128,6 +151,12 @@ void Game_Menu::Mouseclicked()
         menu_state = terminated;
     }
 
+    //if the mouse click "multiplayer" button in mainmenu
+    if(menu_state == mainmenu && multiPlayerButton->isCursor_On_button(ptrMousePosition))
+    {
+        menu_state = multiplayer1;
+    }
+
      //if the mouse click the "next" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
         && nextButton->isCursor_On_button(ptrMousePosition))
@@ -142,9 +171,21 @@ void Game_Menu::Mouseclicked()
         setting_backButton();
     }
 
+    //if the mouse click "host" button in multiplayer1
+    if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
+    {
+
+    }
+
+    //if the mouse click "client" button in multiplayer1
+    if(menu_state == multiplayer1 && clientButton->isCursor_On_button(ptrMousePosition))
+    {
+        //
+    }
+
 }
 /******************
-Mouseclicked
+MouseMoved
 when mouse moved, do something...
 ******************/
 void Game_Menu::Mousemoved()
@@ -161,6 +202,11 @@ void Game_Menu::Mousemoved()
         //
     }
 
+    //if cursor in in multiplayer
+    if(menu_state == mainmenu && multiPlayerButton->isCursor_On_button(ptrMousePosition))
+    {
+        //
+    }
 
     //if cursor is in next button
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
@@ -175,6 +221,19 @@ void Game_Menu::Mousemoved()
     {
 
     }
+
+    //if cursor is in host button
+    if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
+    {
+        std::cout << "Debug: Host button" << std::endl;
+    }
+
+    //if cursor is in client button
+    if(menu_state == multiplayer1 && clientButton->isCursor_On_button(ptrMousePosition))
+    {
+        std::cout << "Debug : Client button" << std::endl;
+    }
+
 
 }
 /******************

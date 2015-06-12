@@ -47,13 +47,13 @@ void Game::start()
         {
             menu->update();
 
-            if(menu->getMenu_state() == 5)
+            if(menu->getMenu_state() == end_ingame)
             {
                 game_state = Maingame;
                 delete menu;
                 ingame = new Ingame(&window,&event,&mouseposition, &gamedata, font);
             }
-            else if(menu->getMenu_state() == 6)
+            else if(menu->getMenu_state() == terminated)
             {
                 delete menu;
                 window.close();
