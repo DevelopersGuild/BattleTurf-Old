@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <stdio.h>
+#include <time.h>
 #include <SFML/Graphics.hpp>
 #include "Box.h"
 #include "Player.h"
@@ -41,13 +42,13 @@ private:
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text *Graphing_player_score;
     sf::Texture scoreBoxTexture;
-    
+
     //box texture
     sf::Texture box_texture;
     sf::Texture box_texture_wall;
-    
+
     sf::Texture focusTexture;
-    
+
     sf::Texture texture;
 
     /******************
