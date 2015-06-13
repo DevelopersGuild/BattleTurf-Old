@@ -61,19 +61,7 @@ void Game::start()
 
             if(window.waitEvent(event))
             {
-                if (event.type == sf::Event::Closed)
-                    window.close();
-
-                if(event.type == sf::Event::MouseButtonPressed)
-                {
-                    if(isMouseinWindow())
-                    menu->Mouseclicked();
-                }
-
-                if(event.type == sf::Event::MouseMoved)
-                {
-                    menu->Mousemoved();
-                }
+                menu->HandleEvent();
             }
         }
         else if(game_state == Maingame)

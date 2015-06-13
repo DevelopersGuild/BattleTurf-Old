@@ -45,6 +45,10 @@ private:
     void setting_nextButton();
     void setting_backButton();
 
+    //Handle the events
+    void Mouseclicked();
+
+    void Mousemoved();
 
 public:
     //constructor
@@ -59,10 +63,8 @@ public:
 
     Menu_state getMenu_state();
 
-    //Handle the events
-    void Mouseclicked();
-
-    void Mousemoved();
+    //Handle Event
+    void HandleEvent();
 };
 
 #endif // MENU_H_INCLUDED

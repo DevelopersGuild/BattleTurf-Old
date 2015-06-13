@@ -132,7 +132,25 @@ void Game_Menu::update()
     ptrwindow->draw(debug_menustate);
     ptrwindow->display();
 }
+/******************
+handleEvent
+Get the event and call the function accordingly
+******************/
+void Game_Menu::HandleEvent()
+{
+    if (ptrevent->type == sf::Event::Closed)
+        ptrwindow->close();
 
+    if(ptrevent->type == sf::Event::MouseButtonPressed)
+    {
+        Mouseclicked();
+    }
+
+    if(ptrevent->type == sf::Event::MouseMoved)
+    {
+        Mousemoved();
+    }
+}
 /******************
 Mouseclicked
 when mouse click something, do something...
