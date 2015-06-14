@@ -43,7 +43,7 @@ private:
     /*********************************
     Networking
     *********************************/
-    sf::UdpSocket* socket;
+    sf::TcpSocket* socket;
 
 public:
     Game();
