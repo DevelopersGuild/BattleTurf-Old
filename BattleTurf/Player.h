@@ -13,7 +13,7 @@ private:
     sf::Color Player_color;
     sf::Texture texture;
     sf::Texture interfaceTexture;
-    
+
 public:
     Player();
 

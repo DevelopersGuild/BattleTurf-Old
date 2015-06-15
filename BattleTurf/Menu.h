@@ -2,6 +2,7 @@
 #define MENU_H_INCLUDED
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include "Ingame.h"
 #include "Game_State.h"
 #include "Graphic_button.h"
@@ -68,10 +69,16 @@ private:
     //convert the user input to char
     void Modified_IP();
 
+    /**Networking**/
+    //tcp socket
+    sf::TcpSocket* ptrsocket;
+    //try to connect to host
+    bool TryConnet();
+
 public:
     //constructor
     Game_Menu();
-    Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font);
+    Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket);
 
     //destructor
     ~Game_Menu();

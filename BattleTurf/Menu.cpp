@@ -5,7 +5,7 @@ Game_Menu::Game_Menu()
     menu_state = mainmenu;
 }
 
-Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font)
+Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket)
 {
     //when the menu start, set the state to mainmenu
     menu_state = mainmenu;
@@ -22,6 +22,7 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     ptrevent = event;
     ptrMousePosition = mouseposition;
     ptrfont = font;
+    ptrsocket = socket;
 
     //initialize the background
     menu_background.setFillColor(sf::Color(255,255,255,255));
@@ -268,7 +269,7 @@ void Game_Menu::Mouseclicked()
     if(menu_state == multiplayer_client && connectButton->isCursor_On_button(ptrMousePosition))
     {
         //try to connect
-        std::cout << "Trying to connect " << IP.toAnsiString() << std::endl;
+        TryConnet();
     }
 
     //if the mouse click "back" button in multiplayer lobby
@@ -411,5 +412,47 @@ void Game_Menu::Modified_IP()
     {
         if(!IP.isEmpty())
         IP.erase(IP.getSize() - 1, 1);
+    }
+}
+
+/******************
+TryConnect
+Try to connect to the host
+return true if success , return false otherwise.
+******************/
+bool Game_Menu::TryConnet()
+{
+    //if the IP is empty, return false
+    if(IP.isEmpty())
+    {
+        std::cout << "empty IP." << std::endl;
+        return false;
+    }
+
+    //declare a new socket
+    ptrsocket = new sf::TcpSocket;
+
+    std::cout << "Trying to connect " << IP.toAnsiString() << std::endl;
+
+    if(ptrsocket->connect(IP.toAnsiString(),7740, sf::Time::Zero) != sf::Socket::Done)
+    {
+        std::cout << "Connection failed." << std::endl;
+        delete ptrsocket;
+        return false;
+    }
+    else
+    {
+        std::cout << "Connection success." << std::endl;
+        char data[100] = "Hello server, I am client!";
+        if(ptrsocket->send(data, 100) != sf::Socket::Done)
+        {
+            std::cout << "sending failed." << std::endl;
+            return false;
+        }
+        else
+        {
+            std::cout << "sending success" << std::endl;
+        }
+        return true;
     }
 }

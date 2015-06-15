@@ -35,13 +35,14 @@ void Game::start()
     {
         //update the position of mouse
         getMousePosition();
+
         if(game_state == Start)
         {
             intro = new Intro(&window, &gamedata, font);
             intro->Play();
             delete intro;
             game_state = Menu;
-            menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font);
+            menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font, socket);
         }
         else if(game_state == Menu)
         {
@@ -58,8 +59,7 @@ void Game::start()
                 delete menu;
                 window.close();
             }
-
-            if(window.waitEvent(event))
+            else if(window.waitEvent(event))
             {
                 menu->HandleEvent();
             }

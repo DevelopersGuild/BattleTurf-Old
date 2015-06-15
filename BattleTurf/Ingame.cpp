@@ -61,13 +61,6 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
                                          ptrgameSetting->NUM_BOX_HEIGHT * ptrgameSetting->BOX_SIZE));
     background.setFillColor(sf::Color::White);
 
-    //declare the box here
-    box = new Box*[ptrgameSetting->NUM_BOX_WIDTH];
-    for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
-    {
-        box[i] = new Box[ptrgameSetting->NUM_BOX_HEIGHT];
-    }
-
     Graphing_player_score = new sf::Text[4];
 
 
@@ -130,7 +123,6 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
             box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ (ptrgameSetting->BOX_SIZE/5.8), ptrgameSetting->BOX_SIZE * j + ptrgameSetting->BOX_SIZE/6.2);
         }
     }
-
     Mech_Set_Score_Pool();
     Mech_Set_Wall();
     Mech_Reset_Player_Scores();
@@ -138,13 +130,6 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
 Ingame::~Ingame()
 {
-
-    for(int i = 0; i <ptrgameSetting->NUM_BOX_WIDTH; i++)
-    {
-        delete [] box[i];
-    }
-
-    delete [] box;
     delete [] player;
     delete [] Graphing_player_score;
     delete [] player_order;
@@ -155,7 +140,6 @@ void Ingame::update()
 {
     ptrwindow->clear();
     ptrwindow->draw(background);
-
     //redraw the map, will be changed when we do the graphics.
     for(int i = 0; i < ptrgameSetting->NUM_BOX_WIDTH; i++)
     {
@@ -173,6 +157,7 @@ void Ingame::update()
             }
         }
     }
+
     //draw the background behind the text that shows the current player's color and his scorebox
     ptrwindow->draw(GraphingRect1);
 
