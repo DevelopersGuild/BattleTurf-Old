@@ -99,7 +99,7 @@ bool Box::capture_directly_by(Player &player, int scorenum)
 {
     if(boxstate == 0)
     {
-        texture = player.getTexture();
+        //texture = player.getTexture(0);
         boxstate = occupied;
         score = scorenum;
         owner = &player;
@@ -116,7 +116,7 @@ Can only be called by check() function.
 void Box::capture_Indirectly_by(Box *box)
 {
     owner = box->getowner();
-    texture = owner->getTexture();
+    //texture = owner->getTexture(0);
     rect.setTexture(&texture);
 }
 /*********************************************

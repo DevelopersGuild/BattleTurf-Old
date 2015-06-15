@@ -71,16 +71,16 @@ void Player::setscorebox_order(int value[], int num_score_each_player)
 /*********************************************
  setTexture
  *********************************************/
-void Player::setTexture(std::string textureName)
+void Player::setTexture(sf::Texture* input)
 {
-    texture.loadFromFile(textureName);
+    ptrtexture = input;
 }
 /*********************************************
  getTexture
  *********************************************/
-sf::Texture Player::getTexture()
+sf::Texture* Player::getTexture(int num)
 {
-    return texture;
+    return &ptrtexture[num];
 }
 
 /*********************************************

@@ -1,4 +1,5 @@
 #include "Ingame.h"
+#include <sstream>
 
 Ingame::Ingame()
 {
@@ -30,11 +31,25 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     player = new Player[ptrgameSetting->NUM_PLAYER];
 
     //load texture both interface and box for each player
+    std::string color[4] = {"blue" , "red" , "green", "yellow"};
+    for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
+    {
+        sf::Texture* temp_texture = new sf::Texture[16];
+        for(int j = 0; j < 16; j++)
+        {
+            std::ostringstream filename;
+            filename << "Texture/box_" << color[i] << "_1_" << (j + 1) << ".png";
+            temp_texture[j].loadFromFile(filename.str());
+        }
+        player[i].setTexture(temp_texture);
+    }
+
+    /*
     player[0].setTexture("Texture/box_blue_1_1.png");
     player[1].setTexture("Texture/box_red_1_1.png");
     player[2].setTexture("Texture/box_green_1_1.png");
     player[3].setTexture("Texture/box_yellow_1_1.png");
-
+*/
     player[0].setInterfaceTexture("Texture/image_scorebox_blue_19_23.png");
     player[1].setInterfaceTexture("Texture/image_scorebox_red_19_23.png");
     player[2].setInterfaceTexture("Texture/image_scorebox_green_19_23.png");
@@ -106,12 +121,12 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
             box[i][j].setPosition(ptrgameSetting->BOX_SIZE * i, ptrgameSetting->BOX_SIZE * j);
             box[i][j].setPosition(ptrgameSetting->BOX_SIZE *i, ptrgameSetting->BOX_SIZE * j);
             box[i][j].setSize(ptrgameSetting->BOX_SIZE);
-            box[i][j].setTexture(box_texture);
+            box[i][j].setTexture(&box_texture);
             //setedge
             if(i == 0 || j == 0 || i == ptrgameSetting->NUM_BOX_WIDTH - 1 || j == ptrgameSetting->NUM_BOX_HEIGHT - 1)
             {
                 box[i][j].setwall();
-                box[i][j].setTexture(box_texture_wall);
+                box[i][j].setTexture(&box_texture_wall);
             }
 
             box[i][j].Graphing_score.setFont(*ptrfont);
@@ -145,6 +160,117 @@ void Ingame::update()
     {
         for(int j = 0; j < ptrgameSetting->NUM_BOX_HEIGHT;j++)
         {
+            if(box[i][j].getstate() == occupied)
+            {
+                //temporary!!!...just for testing..
+                 if(box[i][j].getowner() == box[i][j - 1].getowner())  //up
+                 {
+                     if(box[i][j].getowner() == box[i + 1][j].getowner()) //right
+                     {
+                         if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(15));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(13));
+                             }
+                         }
+                         else
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(12));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(7));
+                             }
+                         }
+                     }
+                     else
+                     {
+                        if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(11));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(5));
+                             }
+                         }
+                         else
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(10));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(1));
+                             }
+                         }
+                     }
+                 }
+                 else
+                 {
+                    if(box[i][j].getowner() == box[i + 1][j].getowner()) //right
+                     {
+                         if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(14));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(8));
+                             }
+                         }
+                         else
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(6));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(2));
+                             }
+                         }
+                     }
+                     else
+                     {
+                        if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(9));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(3));
+                             }
+                         }
+                         else
+                         {
+                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(4));
+                             }
+                             else
+                             {
+                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(0));
+                             }
+                         }
+                     }
+                 }
+            }
+
             box[i][j].show(ptrwindow);
 
             if(box[i][j].getscore() != 0){
@@ -223,14 +349,14 @@ void Ingame::Show_Cursor_Box()
         //focus box
         if(currentbox->getstate() == non_occupied)
         {
-            currentbox->setTexture(focusTexture);
+            currentbox->setTexture(&focusTexture);
         }
 
         //the lastbox changes to white, if the lastbox is occupied, don't chnange it to white.
         if(lastbox != NULL && lastbox->getstate() == non_occupied)
         {
 
-            lastbox->setTexture(box_texture);
+            lastbox->setTexture(&box_texture);
         }
         lastbox = currentbox;
     }
@@ -317,7 +443,7 @@ void Ingame::Mech_Set_Wall()
         if(box[target1][target2].getstate() != 2)
         {
             box[target1][target2].setwall();
-            box[target1][target2].setTexture(box_texture_wall);
+            box[target1][target2].setTexture(&box_texture_wall);
             count++;
         }
     }
