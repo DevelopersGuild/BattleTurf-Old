@@ -42,7 +42,7 @@ void Game::start()
             intro->Play();
             delete intro;
             game_state = Menu;
-            menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font, socket);
+            menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font, socket, listener);
         }
         else if(game_state == Menu)
         {

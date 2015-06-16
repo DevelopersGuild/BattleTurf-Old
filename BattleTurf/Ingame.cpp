@@ -32,16 +32,17 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
 
     //load texture both interface and box for each player
     std::string color[4] = {"blue" , "red" , "green", "yellow"};
+    int texturelist[16] = {0,1,5,6,7,8,9,10,12,13,14,15,16,17,21,22};
     for(int i = 0; i < ptrgameSetting->NUM_PLAYER; i++)
     {
-        sf::Texture* temp_texture = new sf::Texture[16];
+        sf::Texture* texture_hash = new sf::Texture[23];
         for(int j = 0; j < 16; j++)
         {
             std::ostringstream filename;
-            filename << "Texture/box_" << color[i] << "_1_" << (j + 1) << ".png";
-            temp_texture[j].loadFromFile(filename.str());
+            filename << "Texture/box_" << color[i] << "_1_" << texturelist[j] << ".png";
+            texture_hash[texturelist[j]].loadFromFile(filename.str());
         }
-        player[i].setTexture(temp_texture);
+        player[i].setTexture(texture_hash);
     }
 
     /*
@@ -49,7 +50,8 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     player[1].setTexture("Texture/box_red_1_1.png");
     player[2].setTexture("Texture/box_green_1_1.png");
     player[3].setTexture("Texture/box_yellow_1_1.png");
-*/
+    */
+
     player[0].setInterfaceTexture("Texture/image_scorebox_blue_19_23.png");
     player[1].setInterfaceTexture("Texture/image_scorebox_red_19_23.png");
     player[2].setInterfaceTexture("Texture/image_scorebox_green_19_23.png");
@@ -162,125 +164,45 @@ void Ingame::update()
         {
             if(box[i][j].getstate() == occupied)
             {
-                //temporary!!!...just for testing..
-                 if(box[i][j].getowner() == box[i][j - 1].getowner())  //up
-                 {
-                     if(box[i][j].getowner() == box[i + 1][j].getowner()) //right
-                     {
-                         if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(15));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(13));
-                             }
-                         }
-                         else
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(12));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(7));
-                             }
-                         }
-                     }
-                     else
-                     {
-                        if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(11));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(5));
-                             }
-                         }
-                         else
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(10));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(1));
-                             }
-                         }
-                     }
-                 }
-                 else
-                 {
-                    if(box[i][j].getowner() == box[i + 1][j].getowner()) //right
-                     {
-                         if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(14));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(8));
-                             }
-                         }
-                         else
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(6));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(2));
-                             }
-                         }
-                     }
-                     else
-                     {
-                        if(box[i][j].getowner() == box[i][j + 1].getowner()) // down
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(9));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(3));
-                             }
-                         }
-                         else
-                         {
-                             if(box[i][j].getowner() == box[i - 1][j].getowner()) //left
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(4));
-                             }
-                             else
-                             {
-                                 box[i][j].setTexture(box[i][j].getowner()->getTexture(0));
-                             }
-                         }
-                     }
-                 }
+                int hashAddress = 0;
+                if(box[i][j].getowner() != box[i][j - 1].getowner())    //top
+                {
+                    hashAddress += 1;
+                }
+
+                if(box[i][j].getowner() != box[i + 1][j].getowner())    //right
+                {
+                    hashAddress += 5;
+                }
+
+                if(box[i][j].getowner() != box[i][j + 1].getowner())    //down
+                {
+                    hashAddress += 7;
+                }
+
+                if(box[i][j].getowner() != box[i - 1][j].getowner())    //left
+                {
+                    hashAddress += 9;
+                }
+
+                box[i][j].setTexture(box[i][j].getowner()->getTexture(hashAddress));
             }
 
             box[i][j].show(ptrwindow);
 
-            if(box[i][j].getscore() != 0){
-                if (box[i][j].getscore() < 10){
+            if(box[i][j].getscore() != 0)
+            {
+                if (box[i][j].getscore() < 10)
+                {
                     box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ (ptrgameSetting->BOX_SIZE/2.6), ptrgameSetting->BOX_SIZE * j + ptrgameSetting->BOX_SIZE/4.2);
-                } else {
+                }
+                else
+                {
                     box[i][j].Graphing_score.setPosition(ptrgameSetting->BOX_SIZE * i+ (ptrgameSetting->BOX_SIZE/3.7), ptrgameSetting->BOX_SIZE * j + ptrgameSetting->BOX_SIZE/4.2);
                 }
                 ptrwindow->draw(box[i][j].Graphing_score);
             }
+
         }
     }
 

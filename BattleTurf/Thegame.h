@@ -44,6 +44,7 @@ private:
     Networking
     *********************************/
     sf::TcpSocket* socket;
+    sf::TcpListener* listener;
 
 public:
     Game();

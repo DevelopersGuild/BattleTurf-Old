@@ -5,7 +5,7 @@ Game_Menu::Game_Menu()
     menu_state = mainmenu;
 }
 
-Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket)
+Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket, sf::TcpListener* listener)
 {
     //when the menu start, set the state to mainmenu
     menu_state = mainmenu;
@@ -85,6 +85,23 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     IP_Bar.setOutlineThickness(1);
     IP_Bar.setOutlineColor(sf::Color::Black);
 
+    //Multiplayer lobby
+    for(int i = 0; i < 4; i++)
+    {
+        lobby_Player_Color[i].setSize(sf::Vector2f(50,50));
+        lobby_Player_Color[i].setPosition(4*ptrsetting->BOX_SIZE,5*ptrsetting->BOX_SIZE + i*ptrsetting->BOX_SIZE);
+
+        lobby_Player_Bar[i].setSize(sf::Vector2f(500,50));
+        lobby_Player_Bar[i].setPosition(5*ptrsetting->BOX_SIZE,5*ptrsetting->BOX_SIZE + i*ptrsetting->BOX_SIZE);
+        lobby_Player_Bar[i].setOutlineThickness(2);
+        lobby_Player_Bar[i].setOutlineColor(sf::Color::Black);
+
+    }
+        lobby_Player_Color[0].setFillColor(sf::Color::Blue);
+        lobby_Player_Color[1].setFillColor(sf::Color::Red);
+        lobby_Player_Color[2].setFillColor(sf::Color::Green);
+        lobby_Player_Color[3].setFillColor(sf::Color::Yellow);
+
     //debug: show the current game state
     debug_menustate.setFont(*font);
     debug_menustate.setString("menu_state");
@@ -113,7 +130,11 @@ ask the window to redraw all graphic element to the screen
 *************/
 void Game_Menu::update()
 {
-    //clear the window first
+    //if network is on, get the data first
+    if(menu_state == multiplayer_lobby_host || menu_state == multiplayer_client)
+        network_update();
+
+    //clear the window
     ptrwindow->clear();
     ptrwindow->draw(menu_background);   //the background must be drawn
     ptrwindow->draw(gameTitleRect);
@@ -155,9 +176,23 @@ void Game_Menu::update()
         backButton->addInto(ptrwindow);
         connectButton->addInto(ptrwindow);
     }
-    else if(menu_state == multiplayer_lobby)
+    else if(menu_state == multiplayer_lobby_host)
     {
         backButton->addInto(ptrwindow);
+        for(int i = 0; i < 4; i++)
+        {
+            ptrwindow->draw(lobby_Player_Color[i]);
+            ptrwindow->draw(lobby_Player_Bar[i]);
+        }
+    }
+    else if(menu_state == multiplayer_lobby_client)
+    {
+        backButton->addInto(ptrwindow);
+        for(int i = 0; i < 4; i++)
+        {
+            ptrwindow->draw(lobby_Player_Color[i]);
+            ptrwindow->draw(lobby_Player_Bar[i]);
+        }
     }
 
     //debug : the game state
@@ -169,7 +204,8 @@ void Game_Menu::update()
         case setting3 : debug_menustate.setString("setting3"); break;
         case multiplayer1 : debug_menustate.setString("multiplayer1"); break;
         case multiplayer_client : debug_menustate.setString("multiplayer_client"); break;
-        case multiplayer_lobby : debug_menustate.setString("multiplayer_lobby"); break;
+        case multiplayer_lobby_host : debug_menustate.setString("multiplayer_lobby_host"); break;
+        case multiplayer_lobby_client : debug_menustate.setString("multiplayer_lobby_client"); break;
     }
     ptrwindow->draw(debug_menustate);
     ptrwindow->display();
@@ -244,7 +280,8 @@ void Game_Menu::Mouseclicked()
     //if the mouse click "host" button in multiplayer1
     if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
     {
-        menu_state = multiplayer_lobby;
+        menu_state = multiplayer_lobby_host;
+        StartListen();
     }
 
     //if the mouse click "client" button in multiplayer1
@@ -273,8 +310,10 @@ void Game_Menu::Mouseclicked()
     }
 
     //if the mouse click "back" button in multiplayer lobby
-    if(menu_state == multiplayer_lobby && backButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == multiplayer_lobby_host && backButton->isCursor_On_button(ptrMousePosition))
     {
+        delete ptrlistener;
+        delete ptrsocket;
         menu_state = multiplayer1;
     }
 
@@ -345,7 +384,7 @@ void Game_Menu::Mousemoved()
 
     }
 
-    if(menu_state == multiplayer_lobby && backButton->isCursor_On_button(ptrMousePosition))
+    if(menu_state == multiplayer_lobby_host && backButton->isCursor_On_button(ptrMousePosition))
     {
 
     }
@@ -443,16 +482,49 @@ bool Game_Menu::TryConnet()
     else
     {
         std::cout << "Connection success." << std::endl;
-        char data[100] = "Hello server, I am client!";
+        char data[100] = "PlayerName";
         if(ptrsocket->send(data, 100) != sf::Socket::Done)
         {
             std::cout << "sending failed." << std::endl;
             return false;
         }
-        else
-        {
-            std::cout << "sending success" << std::endl;
-        }
+
+        std::cout << "sending success" << std::endl;
+        menu_state = multiplayer_lobby_client;
         return true;
     }
+}
+
+bool Game_Menu::StartListen()
+{
+    //declare a listener
+    ptrlistener = new sf::TcpListener;
+    // bind the listener to a port
+    if (ptrlistener->listen(7740) != sf::Socket::Done)
+    {
+        std::cout << "Cannot bind the port 7740!" << std::endl;
+        delete ptrlistener;
+        return false;
+    }
+    ptrlistener->setBlocking(false);
+    ptrsocket = new sf::TcpSocket;
+    std::cout << "start listening." << std::endl;
+    return true;
+}
+
+void Game_Menu::network_update()
+{
+    if(menu_state == multiplayer_lobby_host)
+    {
+        //a new client
+        if(ptrlistener->accept(*ptrsocket) == sf::Socket::Done)
+        {
+            std::cout << "New connection received from " << ptrsocket->getRemoteAddress() << std::endl;
+        }
+    }
+    else    //multiplayer_lobby_client
+    {
+
+    }
+
 }

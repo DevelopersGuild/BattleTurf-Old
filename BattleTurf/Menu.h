@@ -9,7 +9,7 @@
 
 enum Menu_state{mainmenu = 1,
                 setting1 = 2, setting2 = 3, setting3 = 4,
-                multiplayer1 = 5, multiplayer_client = 6, multiplayer_lobby = 7,
+                multiplayer1 = 5, multiplayer_client = 6, multiplayer_lobby_host = 7, multiplayer_lobby_client = 8,
                 end_ingame = 10, end_multiplayer_ingame = 11,
                 terminated = 12};
 
@@ -37,7 +37,8 @@ private:
     Graphic_button* connectButton;
 
     //multiplayer_lobby
-
+    sf::RectangleShape lobby_Player_Color[4];
+    sf::RectangleShape lobby_Player_Bar[4];
 
     //the (testing) image of menu
     sf::Texture gameTitle;
@@ -72,13 +73,19 @@ private:
     /**Networking**/
     //tcp socket
     sf::TcpSocket* ptrsocket;
+    //tcp listener
+    sf::TcpListener* ptrlistener;
     //try to connect to host
     bool TryConnet();
+    //open host listener
+    bool StartListen();
+    //update function
+    void network_update();
 
 public:
     //constructor
     Game_Menu();
-    Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket);
+    Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *ptrsetting, sf::Font *font, sf::TcpSocket* socket, sf::TcpListener* listener);
 
     //destructor
     ~Game_Menu();
