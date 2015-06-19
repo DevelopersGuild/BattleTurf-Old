@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "vector"
 #include "Game_State.h"
+#include "Graphic_button.h"
 
 class Ingame : public Game_State
 {
@@ -32,6 +33,9 @@ private:
     Box *currentbox;            //a pointer for marking the box that the cursor located.
     Box *lastbox;               //a pointer that remember the last 'currentbox'.
     
+    bool quitIngame;
+    bool winnerBoxIsFilled;
+    
 
     /******************
     Graphics
@@ -43,6 +47,16 @@ private:
     sf::Text Graphing_scorebox;                            //the text of the current scorebox
     sf::Text *Graphing_player_score;
     sf::Texture scoreBoxTexture;
+    
+    sf::RectangleShape whiteBackground;
+    sf::RectangleShape winnerBox;
+    sf::Texture winner1_texture;
+    sf::Texture winner2_texture;
+    sf::Texture winner3_texture;
+    sf::Texture winner4_texture;
+    
+    Graphic_button* backToMenuButton;
+    
 
     //box texture
     sf::Texture box_texture;
