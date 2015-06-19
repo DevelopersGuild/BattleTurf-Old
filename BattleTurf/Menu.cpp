@@ -37,7 +37,7 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
     //initialize the multiplayer button in mainmenu
     multiPlayerButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
                                      11*ptrsetting->BOX_SIZE, 5*ptrsetting->BOX_SIZE,
-                                     "Texture/button_start_2_1.png", "Texture/button_start_focus_2_1.png");
+                                     "Texture/button_multiplayer_4_1.png", "Texture/button_multiplayer_focus_4_1.png");
 
     //initialize the exit button in mainmenu
     exitButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 2*ptrsetting->BOX_SIZE,
@@ -54,11 +54,11 @@ Game_Menu::Game_Menu(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *m
 
     hostButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     7*ptrsetting->BOX_SIZE, 8*ptrsetting->BOX_SIZE,
-                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
+                                    "Texture/button_host_4_1.png", "Texture/button_host_focus_4_1.png");
 
     clientButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     7*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
-                                    "Texture/button_back_4_1.png", "Texture/button_back_focus_4_1.png");
+                                    "Texture/button_client_4_1.png", "Texture/button_client_focus_4_1.png");
 
     connectButton = new Graphic_button(4*ptrsetting->BOX_SIZE, 1*ptrsetting->BOX_SIZE,
                                     9*ptrsetting->BOX_SIZE, 10*ptrsetting->BOX_SIZE,
