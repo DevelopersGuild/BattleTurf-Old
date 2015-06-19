@@ -66,7 +66,16 @@ void Game::start()
         }
         else if(game_state == Maingame)
         {
-            ingame->update();
+            if (ingame->update())
+            {
+
+            }
+            else
+            {
+                game_state = Menu;
+                menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font, socket, listener);
+                delete ingame;
+            }
 
             if(window.waitEvent(event))
                 ingame->HandleEvent();

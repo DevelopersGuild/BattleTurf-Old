@@ -9,7 +9,9 @@
 
 enum Menu_state{mainmenu = 1,
                 setting1 = 2, setting2 = 3, setting3 = 4,
+
                 multiplayer1 = 5, multiplayer_client = 6, multiplayer_lobby_host = 7, multiplayer_lobby_client = 8,
+
                 end_ingame = 10, end_multiplayer_ingame = 11,
                 terminated = 12};
 

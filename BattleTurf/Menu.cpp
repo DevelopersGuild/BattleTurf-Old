@@ -257,11 +257,13 @@ void Game_Menu::Mouseclicked()
         menu_state = terminated;
     }
 
+
     //if the mouse click "multiplayer" button in mainmenu
     if(menu_state == mainmenu && multiPlayerButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = multiplayer1;
     }
+
 
      //if the mouse click the "next" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
@@ -276,6 +278,8 @@ void Game_Menu::Mouseclicked()
     {
         setting_backButton();
     }
+
+
 
     //if the mouse click "host" button in multiplayer1
     if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
@@ -316,6 +320,8 @@ void Game_Menu::Mouseclicked()
         delete ptrsocket;
         menu_state = multiplayer1;
     }
+
+
 
 }
 /******************
@@ -359,19 +365,19 @@ void Game_Menu::Mousemoved()
     //if cursor is in host button
     if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
     {
-        std::cout << "Debug: Host button" << std::endl;
+
     }
 
     //if cursor is in client button
     if(menu_state == multiplayer1 && clientButton->isCursor_On_button(ptrMousePosition))
     {
-        std::cout << "Debug : Client button" << std::endl;
+
     }
 
     //if cursor is in back button
     if(menu_state == multiplayer1 && backButton->isCursor_On_button(ptrMousePosition))
     {
-        std::cout << "Debug : Back button" << std::endl;
+
     }
 
     if(menu_state == multiplayer_client && backButton->isCursor_On_button(ptrMousePosition))

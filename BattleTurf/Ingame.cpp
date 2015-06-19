@@ -12,6 +12,8 @@ Ingame::Ingame()
 
 Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font)
 {
+   winnerBoxIsFilled = false;
+    quitIngame = false;
     current_active_player = 0;
     turn_passed = 0;
     lastbox = NULL;
@@ -22,10 +24,22 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     ptrgameSetting = gameSetting;
     ptrfont = font;
     srand(time(NULL));
+    
+    backToMenuButton = new Graphic_button((ptrgameSetting->BOX_SIZE)*8, (ptrgameSetting->BOX_SIZE),
+                                          (ptrgameSetting->BOX_SIZE)*3, (ptrgameSetting->BOX_SIZE)*9, "Texture/button_backtomenu_8_1.png", "Texture/button_backtomenu_focus_8_1.png");
+    
+    
+    winnerBox.setPosition((ptrgameSetting->BOX_SIZE)*3, (ptrgameSetting->BOX_SIZE)*3);
+    winnerBox.setSize(sf::Vector2f((ptrgameSetting->BOX_SIZE)*8, (ptrgameSetting->BOX_SIZE)*4));
 
     //load box texture
     box_texture.loadFromFile("Texture/box_empty_1_1.png");
     box_texture_wall.loadFromFile("Texture/box_wall_1_1.png");
+    
+    winner1_texture.loadFromFile("Texture/image_winner_player1_2_1.png");
+    winner2_texture.loadFromFile("Texture/image_winner_player2_2_1.png");
+    winner3_texture.loadFromFile("Texture/image_winner_player3_2_1.png");
+    winner4_texture.loadFromFile("Texture/image_winner_player4_2_1.png");
 
     //temporary
     player = new Player[ptrgameSetting->NUM_PLAYER];
@@ -58,6 +72,11 @@ Ingame::Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mousepo
     player[3].setInterfaceTexture("Texture/image_scorebox_yellow_19_23.png");
 
     focusTexture.loadFromFile("Texture/box_focus_1_1.png");
+    
+    
+    whiteBackground.setFillColor(sf::Color(255, 255, 255, 220));
+    whiteBackground.setPosition(0, 0);
+    whiteBackground.setSize(sf::Vector2f(18*ptrgameSetting->BOX_SIZE, 12*ptrgameSetting->BOX_SIZE));
 
 
     //This is not used actually
@@ -153,7 +172,7 @@ Ingame::~Ingame()
 
 }
 
-void Ingame::update()
+bool Ingame::update()
 {
     ptrwindow->clear();
     ptrwindow->draw(background);
@@ -230,8 +249,34 @@ void Ingame::update()
         Graphic_int_ToString(player[i].getscore(),Graphing_player_score[i]);
         ptrwindow->draw(Graphing_player_score[i]);
     }
+    
+    
 
+    
+    //Check endgame
+    if (Mech_Check_Endgame()){
+        if (!winnerBoxIsFilled){
+            switch(Mech_Find_winner()){
+                case (0) : winnerBox.setTexture(&winner1_texture); break;
+                case (1) : winnerBox.setTexture(&winner2_texture); break;
+                case (2) : winnerBox.setTexture(&winner3_texture); break;
+                case (3) : winnerBox.setTexture(&winner4_texture); break;
+            }
+            winnerBoxIsFilled = true;
+        }
+        
+        ptrwindow->draw(whiteBackground);
+        ptrwindow->draw(winnerBox);
+        backToMenuButton->addInto(ptrwindow);
+        
+        if(quitIngame){
+            std::cout << "Game end" << std::endl;
+            std::cout << "The winner is Player" << Mech_Find_winner() + 1 << "!" << std::endl;  //debug
+            return false; //Means not running anymore
+        }
+    }
     ptrwindow->display();
+    return true; //Means still runnning
 }
 
 void Ingame::HandleEvent()
@@ -258,6 +303,10 @@ void Ingame::Event_MouseMoved()
     if(isMouseinGame())
     {
         Show_Cursor_Box();
+        
+        if (winnerBoxIsFilled && backToMenuButton->isCursor_On_button(ptrMousePosition)){
+            
+        }
     }
 }
 
@@ -303,6 +352,10 @@ void Ingame::Event_MouseLeftClicked()
         Mech_Calculate_Score();
 
         Mech_NextPlayer();
+        }
+        
+        if (winnerBoxIsFilled && backToMenuButton->isCursor_On_button(ptrMousePosition)){
+            quitIngame = true;
         }
     }
 
@@ -463,6 +516,19 @@ void Ingame::Mech_Rearrange_order()
     }
 }
 
+/*********************************************
+ Mech_Check_Endgame
+ Check wheteher the game has ended
+ *********************************************/
+bool Ingame::Mech_Check_Endgame(){
+    if (player_order[current_active_player]->getscore_order(turn_passed) == 0 ||
+        player_order[current_active_player]->getscore_order(turn_passed) > 100){
+        return true;
+    }
+    return false;
+}
+
+
 bool Ingame::isMouseinGame()
 {
 
@@ -475,3 +541,5 @@ bool Ingame::isMouseinGame()
     }
     return false;
 }
+
+
