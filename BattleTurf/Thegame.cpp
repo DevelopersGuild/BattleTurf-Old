@@ -78,11 +78,16 @@ void Game::start()
         }
         else if(game_state == Maingame)
         {
-            if (ingame->update()) {} else {
-                std::cout << "Change Mode" << std::endl;
+            if (ingame->update())
+            {
+
+            }
+            else
+            {
                 game_state = Menu;
                 menu = new Game_Menu(&window,&event,&mouseposition, &gamedata, font);
-            };
+                delete ingame;
+            }
 
             if(window.waitEvent(event))
                 ingame->HandleEvent();
