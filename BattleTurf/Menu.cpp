@@ -119,6 +119,11 @@ void Game_Menu::update()
         hostButton->addInto(ptrwindow);
         clientButton->addInto(ptrwindow);
     }
+    else if(menu_state == multiplayerClient)
+    {
+        hostButton->addInto(ptrwindow);
+        clientButton->addInto(ptrwindow);
+    }
 
     //debug : the game state
     switch(menu_state)
@@ -151,11 +156,13 @@ void Game_Menu::Mouseclicked()
         menu_state = terminated;
     }
 
+    
     //if the mouse click "multiplayer" button in mainmenu
     if(menu_state == mainmenu && multiPlayerButton->isCursor_On_button(ptrMousePosition))
     {
         menu_state = multiplayer1;
     }
+    
 
      //if the mouse click the "next" button in mainmenu
     if((menu_state == setting1 || menu_state == setting2 || menu_state == setting3)
@@ -170,6 +177,8 @@ void Game_Menu::Mouseclicked()
     {
         setting_backButton();
     }
+    
+    
 
     //if the mouse click "host" button in multiplayer1
     if(menu_state == multiplayer1 && hostButton->isCursor_On_button(ptrMousePosition))
@@ -182,6 +191,8 @@ void Game_Menu::Mouseclicked()
     {
         //
     }
+     
+     
 
 }
 /******************

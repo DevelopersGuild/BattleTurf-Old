@@ -31,6 +31,7 @@ private:
 
     Box *currentbox;            //a pointer for marking the box that the cursor located.
     Box *lastbox;               //a pointer that remember the last 'currentbox'.
+    
 
     /******************
     Graphics
@@ -66,6 +67,7 @@ private:
     void Mech_Calculate_Score();
     int Mech_Find_winner();
     void Mech_Rearrange_order();
+    bool Mech_Check_Endgame();
 
     void Graphic_int_ToString(int value, sf::Text &targettext);
     bool isMouseinGame();
@@ -75,7 +77,7 @@ public:
     Ingame(sf::RenderWindow *window, sf::Event *event, sf::Vector2i *mouseposition, Game_data *gameSetting, sf::Font *font);
     ~Ingame();
 
-    void update();
+    bool update();
 
     void HandleEvent();
 

@@ -151,7 +151,7 @@ Ingame::~Ingame()
 
 }
 
-void Ingame::update()
+bool Ingame::update()
 {
     ptrwindow->clear();
     ptrwindow->draw(background);
@@ -197,8 +197,17 @@ void Ingame::update()
         Graphic_int_ToString(player[i].getscore(),Graphing_player_score[i]);
         ptrwindow->draw(Graphing_player_score[i]);
     }
+    
+    
 
     ptrwindow->display();
+    
+    //Check endgame
+    if (Mech_Check_Endgame()){
+        std::cout << "Game end" << std::endl;
+        return false; //Means not running anymore
+    }
+    return true; //Means still runnning
 }
 
 void Ingame::HandleEvent()
@@ -430,6 +439,18 @@ void Ingame::Mech_Rearrange_order()
     }
 }
 
+/*********************************************
+ Mech_Check_Endgame
+ Check wheteher the game has ended
+ *********************************************/
+bool Ingame::Mech_Check_Endgame(){
+    if (player_order[current_active_player]->getscore_order(turn_passed) == 0){
+        return true;
+    }
+    return false;
+}
+
+
 bool Ingame::isMouseinGame()
 {
 
@@ -442,3 +463,5 @@ bool Ingame::isMouseinGame()
     }
     return false;
 }
+
+
